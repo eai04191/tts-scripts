@@ -1,0 +1,45 @@
+<Defaults>
+    <TableLayout cellBackgroundColor="0 0 0 0" />
+    <TableLayout class="column" rowBackgroundColor="red" />
+    <Row class="Header" preferredHeight="100" />
+    <Text class="HeaderText" color="white" fontSize="70" />
+    <Row class="Content" dontUseTableRowBackground="true" />
+    <Text class="ContentText" color="black" fontSize="30" alignment="UpperLeft" offsetXY="50 50"/>
+</Defaults>
+<Panel rotation="0 0 180" position="0 0 -60" width="1650" height="1650">
+    <!-- width: 1650-(50x2) -50（おまけ） -->
+    <!-- hright: 1650-490 -80 (おまけ) -->
+    <TableLayout offsetXY="0 -490" width="1500" height="1080" rectAlignment="UpperCenter" cellSpacing="50">
+        <Row>
+            <Cell>
+                <TableLayout class="column">
+                    <Row class="Header">
+                        <Cell>
+                            <Text class="HeaderText">Difficulty</Text>
+                        </Cell>
+                    </Row>
+                    <Row class="Content">
+                        <Cell>
+                            <Text class="ContentText">テキスト見本テキスト見本テキスト見本テキスト見本テキスト見本</Text>
+                            <Text class="ContentText">テキスト見本テキスト見本テキスト見本テキスト見本テキスト見本</Text>
+                        </Cell>
+                    </Row>
+                </TableLayout>
+            </Cell>
+            <Cell>
+                <TableLayout class="column">
+                    <Row class="Header">
+                        <Cell>
+                            <Text class="HeaderText">テキスト見本</Text>
+                        </Cell>
+                    </Row>
+                    <Row class="Content">
+                        <Cell>
+                            <Text class="ContentText">テキスト見本テキスト見本テキスト見本テキスト見本テキスト見本テキスト見本テキスト見本テキスト見本</Text>
+                        </Cell>
+                    </Row>
+                </TableLayout>
+            </Cell>
+        </Row>
+    </TableLayout>
+</Panel>
