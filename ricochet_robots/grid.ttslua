@@ -1,22 +1,20 @@
-grid = {}
-
-function grid.setDefault()
+function gridSetDefault()
     -- https://api.tabletopsimulator.com/grid/
     Grid.type = 1 -- Rect
     Grid.show_lines = false
     Grid.thick_lines = false
     Grid.offsetX = 0
     Grid.offsetY = 0
-    grid.setPlayMode()
+    gridSetPlayMode()
 end
 
-function grid.setEditMode()
+function gridSetEditMode()
     Grid.sizeX = GRID / 2
     Grid.sizeY = GRID / 2
     Grid.snapping = 2 -- Lines
 end
 
-function grid.setPlayMode()
+function gridSetPlayMode()
     Grid.sizeX = GRID
     Grid.sizeY = GRID
     Grid.snapping = 3 -- Center

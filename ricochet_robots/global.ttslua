@@ -10,12 +10,12 @@ spawnedObjects = {
 coloredTiles = {}
 
 function onload()
-    grid.setDefault()
+    gridSetDefault()
 
     if DEBUG then
-        ui.showMenu()
+        showMenu()
     else
-        ui.hideMenu()
+        hideMenu()
     end
 end
 

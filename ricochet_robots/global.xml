@@ -9,8 +9,8 @@
         <Button onclick="hideMenu" id="hideMenuButton" minHeight="25" icon="chevron-left">Close Menu</Button>
 
         <Text>Grid Mode</Text>
-        <Button onClick="setEditMode" icon="wall">Set Wall Edit mode</Button>
-        <Button onClick="setPlayMode" icon="play">Set Play mode</Button>
+        <Button onClick="gridSetEditMode" icon="wall">Set Wall Edit mode</Button>
+        <Button onClick="gridSetPlayMode" icon="play">Set Play mode</Button>
 
         <Text>Action</Text>
         <Button onclick="setTileColor" icon="brush">Set Tile Color</Button>

@@ -1,11 +1,9 @@
-ui = {}
-
-function ui.showMenu()
+function showMenu()
     UI.show("menu")
     UI.hide("showMenuButton")
 end
 
-function ui.hideMenu()
+function hideMenu()
     UI.hide("menu")
     UI.show("showMenuButton")
 end
