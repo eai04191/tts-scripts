@@ -1,8 +1,12 @@
 DEBUG = true
 
 ASSET = {
+    wall = {
+        lshape = {
+            mesh = "http://cloud-3.steamusercontent.com/ugc/1485579112396527243/FB9EBAB1746B494CE27B877044A04C91515498A5/"
+        }
+    },
     tile = "http://cloud-3.steamusercontent.com/ugc/1485578894420475371/3C3B7C29D709DD2CBEE3E331B02CD3C0DB236403/",
-    lshapeWall = "http://cloud-3.steamusercontent.com/ugc/1485579112396527243/FB9EBAB1746B494CE27B877044A04C91515498A5/",
     marker = {
         vortex = "http://cloud-3.steamusercontent.com/ugc/1485579112396581862/33F20252C63EE02CF65715B0BAA2F2838C076C9B/",
         red = {
@@ -38,11 +42,13 @@ COLOR = {
     wall = "Brown"
 }
 
-robots_GUID = {
-    "aef036",
-    "b2b07c",
-    "7cc8e8",
-    "9eb0e2"
+GUID = {
+    robot = {
+        "aef036",
+        "b2b07c",
+        "7cc8e8",
+        "9eb0e2"
+    }
 }
 
 -- オブジェクトをスポーンさせる位置の基準となる、左上のタイルの位置

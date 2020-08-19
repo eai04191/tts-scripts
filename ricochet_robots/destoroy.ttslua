@@ -10,16 +10,38 @@ local function destoroy(objTable)
 end
 
 function deleteInnerWalls()
-    destoroy(spawnedInnerWalls)
-    spawnedInnerWalls = {}
+    destoroy(spawnedObjects.wall.inner)
+    spawnedObjects.wall.inner = {}
+
+    return 1
+end
+
+function deleteOuterWall()
+    destoroy(spawnedObjects.wall.outer)
+    spawnedObjects.wall.outer = {}
+
+    return 1
+end
+
+function deleteCenterWall()
+    destoroy(spawnedObjects.wall.center)
+    spawnedObjects.wall.center = {}
+
+    return 1
+end
+
+function deleteTiles()
+    destoroy(spawnedObjects.tile)
+    spawnedObjects.tile = {}
 
     return 1
 end
 
 function deleteSpawnedObjects()
     deleteInnerWalls()
-    destoroy(spawnedObjects)
-    spawnedObjects = {}
+    deleteOuterWall()
+    deleteCenterWall()
+    deleteTiles()
 
     return 1
 end

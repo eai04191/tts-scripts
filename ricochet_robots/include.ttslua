@@ -2,6 +2,9 @@
 #include grid
 #include helper
 #include ui
+-- 創造
 #include spawn
+-- 破壊
 #include destoroy
+
 #include global

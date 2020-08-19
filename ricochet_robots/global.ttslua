@@ -1,6 +1,12 @@
--- スポーンしたオブジェクトなどを保存しておくグローバル変数
-spawnedObjects = {}
-spawnedInnerWalls = {}
+-- スポーンしたオブジェクトを保存しておくグローバル変数
+spawnedObjects = {
+    wall = {
+        inner = {},
+        outer = {},
+        center = {}
+    },
+    tile = {}
+}
 coloredTiles = {}
 
 function onload()
@@ -15,12 +21,12 @@ end
 
 -- ロボットの下にあるタイルに色を付ける
 function setTileColor()
-    -- 色をリセットする
+    -- 以前色を付けたタイルをリセットする
     for _, tile in ipairs(coloredTiles) do
         tile.setColorTint(COLOR.tile)
     end
 
-    for _, guid in ipairs(robots_GUID) do
+    for _, guid in ipairs(GUID.robot) do
         local robot = getObjectFromGUID(guid)
         local position = robot.getPosition()
         spawnObject(

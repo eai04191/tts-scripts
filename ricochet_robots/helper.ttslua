@@ -37,6 +37,7 @@ function pconcat(tab)
     return table.concat(ctab)
 end
 
+-- 引数秒待つ
 -- From: https://steamcommunity.com/sharedfiles/filedetails/?id=752690530
 function wait(time)
     local start = os.time()

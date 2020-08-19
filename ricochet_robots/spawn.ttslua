@@ -1,4 +1,5 @@
 function spawnBaseTiles()
+    deleteTiles()
     -- 16*16
     for row = 1, 16 do
         for col = 1, 16 do
@@ -45,17 +46,14 @@ function spawnBaseTile(position, rotation)
             sound = false
         }
     )
-    tile.setCustomObject(
-        {
-            image = "http://cloud-3.steamusercontent.com/ugc/1485578894420475371/3C3B7C29D709DD2CBEE3E331B02CD3C0DB236403/"
-        }
-    )
+    tile.setCustomObject({image = ASSET.tile})
     tile.setColorTint(COLOR.tile)
     tile.lock()
-    table.insert(spawnedObjects, tile)
+    table.insert(spawnedObjects.tile, tile)
 end
 
 function spawnOuterWall()
+    deleteOuterWall()
     local wall = {
         type = "BlockSquare",
         scale = {x = GRID * 16, y = 1, z = 0.23},
@@ -85,13 +83,14 @@ function spawnOuterWall()
     for _, wall in ipairs(walls) do
         wall.lock()
         wall.setColorTint(COLOR.wall)
-        table.insert(spawnedObjects, wall)
+        table.insert(spawnedObjects.wall.outer, wall)
     end
 
     return 1
 end
 
 function spawnCenterWall()
+    deleteCenterWall()
     local centerWall =
         spawnObject(
         {
@@ -103,7 +102,7 @@ function spawnCenterWall()
 
     centerWall.lock()
     centerWall.setColorTint(COLOR.wall)
-    table.insert(spawnedObjects, centerWall)
+    table.insert(spawnedObjects.wall.center, centerWall)
 
     return 1
 end
@@ -138,7 +137,7 @@ function spawnInnerWall()
             local wall = spawnObject(innerWall)
             wall.setColorTint(COLOR.wall)
             wall.lock()
-            table.insert(spawnedInnerWalls, wall)
+            table.insert(spawnedObjects.wall.inner, wall)
         end
     end
 
@@ -163,7 +162,7 @@ function spawnInnerWall()
             local wall = spawnObject(innerWall)
             wall.setColorTint(COLOR.wall)
             wall.lock()
-            table.insert(spawnedInnerWalls, wall)
+            table.insert(spawnedObjects.wall.inner, wall)
         end
     end
 
@@ -233,8 +232,8 @@ function spawnLshapeWall()
         )
         Lshape.setCustomObject(
             {
-                mesh = "http://cloud-3.steamusercontent.com/ugc/1485579112396527243/FB9EBAB1746B494CE27B877044A04C91515498A5/",
-                collider = "http://cloud-3.steamusercontent.com/ugc/1485579112396527243/FB9EBAB1746B494CE27B877044A04C91515498A5/",
+                mesh = ASSET.wall.lshape.mesh,
+                collider = ASSET.wall.lshape.mesh,
                 convex = false,
                 material = 1,
                 specular_intensity = 0
@@ -243,7 +242,7 @@ function spawnLshapeWall()
         Lshape.setColorTint(COLOR.wall)
         Lshape.lock()
         log("X: " .. position.x .. ",Y: " .. position.z .. " に配置")
-        table.insert(spawnedInnerWalls, marker)
-        table.insert(spawnedInnerWalls, Lshape)
+        table.insert(spawnedObjects.wall.inner, marker)
+        table.insert(spawnedObjects.wall.inner, Lshape)
     end
 end
