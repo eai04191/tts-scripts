@@ -1,14 +1,36 @@
 <Panel width="200" height="50" offsetXY="-8 250" rectAlignment="MiddleRight" allowDragging="true" returnToOriginalPositionWhenReleased="false" visibility="Admin">
     <Defaults>
         <Text color="White" outline="Black" />
-        <Button iconWidth="24" textAlignment="MiddleLeft" padding="20 4 0 0" flexibleWidth="1"/>
+        <Button iconWidth="24" textAlignment="MiddleLeft" padding="20 4 0 0" flexibleWidth="1" />
         <HorizontalLayout childForceExpandWidth="false" />
-        <Button class="icon-only" padding="8 8 0 0" minWidth="40" flexibleWidth="0"/>
+        <Button class="icon-only" padding="8 8 0 0" minWidth="40" flexibleWidth="0" />
     </Defaults>
 
     <Button onclick="showMenu" id="showMenuButton" icon="chevron-right" iconAlignment="Right" textAlignment="MiddleCenter">Show Menu</Button>
     <VerticalLayout id="menu" width="200" height="470" rectAlignment="UpperRight">
         <Button onclick="hideMenu" id="hideMenuButton" minHeight="25" icon="chevron-left">Close Menu</Button>
+
+        <Text>Spawn / Destroy</Text>
+        <HorizontalLayout>
+            <Button onclick="startCoroutineSpawnStartingSet" minHeight="25" icon="robot" id="spawnStartingSet">Starting Set</Button>
+            <Button onClick="startCoroutineDestroySpawnedObjects" icon="trash-can-outline" class="icon-only" />
+        </HorizontalLayout>
+        <HorizontalLayout>
+            <Button onClick="startCoroutineSpawnTiles" icon="tile" id="spawnTiles">Base Tiles</Button>
+            <Button onClick="startCoroutineDestroyTiles" icon="trash-can-outline" class="icon-only" />
+        </HorizontalLayout>
+        <HorizontalLayout>
+            <Button onClick="startCoroutineSpawnOuterWall" icon="wall-outer">Outer Wall</Button>
+            <Button onClick="startCoroutineDestroyOuterWall" icon="trash-can-outline" class="icon-only" />
+        </HorizontalLayout>
+        <HorizontalLayout>
+            <Button onClick="startCoroutineSpawnCenterWall" icon="wall-center">Center Wall</Button>
+            <Button onClick="startCoroutineDestroyCenterWall" icon="trash-can-outline" class="icon-only" />
+        </HorizontalLayout>
+        <HorizontalLayout>
+            <Button onClick="startCoroutineSpawnInnerWalls" icon="wall-inner" id="spawnInnerWalls">Random Inner Walls</Button>
+            <Button onClick="startCoroutineDestroyInnerWalls" icon="trash-can-outline" class="icon-only" />
+        </HorizontalLayout>
 
         <Text>Grid Mode</Text>
         <Button onClick="gridSetEditMode" icon="wall">Set Wall Edit mode</Button>
@@ -16,27 +38,5 @@
 
         <Text>Action</Text>
         <Button onclick="setTileColor" icon="brush">Set Tile Color</Button>
-
-        <Text>Spawn / Destroy</Text>
-        <HorizontalLayout>
-            <Button onclick="startCoroutineSpawnStartingSet" minHeight="25" icon="blank">Starting Set</Button>
-            <Button onClick="startCoroutineDestroySpawnedObjects" icon="trash-can-outline" class="icon-only"/>
-        </HorizontalLayout>
-        <HorizontalLayout>
-            <Button onClick="startCoroutineSpawnTiles" icon="tile">Base Tiles</Button>
-            <Button onClick="startCoroutineDestroyTiles" icon="trash-can-outline" class="icon-only"/>
-        </HorizontalLayout>
-        <HorizontalLayout>
-            <Button onClick="startCoroutineSpawnOuterWall" icon="wall-outer">Outer Wall</Button>
-            <Button onClick="startCoroutineDestroyOuterWall" icon="trash-can-outline" class="icon-only"/>
-        </HorizontalLayout>
-        <HorizontalLayout>
-            <Button onClick="startCoroutineSpawnCenterWall" icon="wall-center">Center Wall</Button>
-            <Button onClick="startCoroutineDestroyCenterWall" icon="trash-can-outline" class="icon-only"/>
-        </HorizontalLayout>
-        <HorizontalLayout>
-            <Button onClick="startCoroutineSpawnInnerWalls" icon="wall-inner">Random Inner Walls</Button>
-            <Button onClick="startCoroutineDestroyInnerWalls" icon="trash-can-outline" class="icon-only"/>
-        </HorizontalLayout>
     </VerticalLayout>
 </Panel>
