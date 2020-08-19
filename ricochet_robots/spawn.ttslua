@@ -1,5 +1,5 @@
 function spawnTiles()
-    destoroyTiles()
+    destroyTiles()
     -- 16*16
     for row = 1, 16 do
         for col = 1, 16 do
@@ -53,7 +53,7 @@ function spawnBaseTile(position, rotation)
 end
 
 function spawnOuterWall()
-    destoroyOuterWall()
+    destroyOuterWall()
     local wall = {
         type = "BlockSquare",
         scale = {x = GRID * 16, y = 1, z = 0.23},
@@ -90,7 +90,7 @@ function spawnOuterWall()
 end
 
 function spawnCenterWall()
-    destoroyCenterWall()
+    destroyCenterWall()
     local centerWall =
         spawnObject(
         {
@@ -108,7 +108,7 @@ function spawnCenterWall()
 end
 
 function spawnInnerWalls()
-    destoroyInnerWalls()
+    destroyInnerWalls()
     local innerWallBase = {
         type = "BlockSquare",
         scale = {x = 1.5, y = 1, z = 0.23},

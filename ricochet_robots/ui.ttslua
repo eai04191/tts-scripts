@@ -19,34 +19,34 @@ function startCoroutineSpawnTiles()
     startLuaCoroutine(self, "spawnTiles")
 end
 
-function startCoroutineDestoroyTiles()
-    startLuaCoroutine(self, "destoroyTiles")
+function startCoroutineDestroyTiles()
+    startLuaCoroutine(self, "destroyTiles")
 end
 
 function startCoroutineSpawnOuterWall()
     startLuaCoroutine(self, "spawnOuterWall")
 end
 
-function startCoroutineDestoroyOuterWall()
-    startLuaCoroutine(self, "destoroyOuterWall")
+function startCoroutineDestroyOuterWall()
+    startLuaCoroutine(self, "destroyOuterWall")
 end
 
 function startCoroutineSpawnCenterWall()
     startLuaCoroutine(self, "spawnCenterWall")
 end
 
-function startCoroutineDestoroyCenterWall()
-    startLuaCoroutine(self, "destoroyCenterWall")
+function startCoroutineDestroyCenterWall()
+    startLuaCoroutine(self, "destroyCenterWall")
 end
 
 function startCoroutineSpawnInnerWalls()
     startLuaCoroutine(self, "spawnInnerWalls")
 end
 
-function startCoroutineDestoroyInnerWalls()
-    startLuaCoroutine(self, "destoroyInnerWalls")
+function startCoroutineDestroyInnerWalls()
+    startLuaCoroutine(self, "destroyInnerWalls")
 end
 
-function startCoroutineDestoroySpawnedObjects()
-    startLuaCoroutine(self, "destoroySpawnedObjects")
+function startCoroutineDestroySpawnedObjects()
+    startLuaCoroutine(self, "destroySpawnedObjects")
 end

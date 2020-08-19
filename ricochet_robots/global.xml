@@ -7,7 +7,7 @@
     </Defaults>
 
     <Button onclick="showMenu" id="showMenuButton" icon="chevron-right" iconAlignment="Right" textAlignment="MiddleCenter">Show Menu</Button>
-    <VerticalLayout id="menu" width="200" height="580" rectAlignment="UpperRight">
+    <VerticalLayout id="menu" width="200" height="470" rectAlignment="UpperRight">
         <Button onclick="hideMenu" id="hideMenuButton" minHeight="25" icon="chevron-left">Close Menu</Button>
 
         <Text>Grid Mode</Text>
@@ -17,26 +17,26 @@
         <Text>Action</Text>
         <Button onclick="setTileColor" icon="brush">Set Tile Color</Button>
 
-        <Text>Spawn</Text>
+        <Text>Spawn / Destroy</Text>
         <HorizontalLayout>
             <Button onclick="startCoroutineSpawnStartingSet" minHeight="25" icon="blank">Starting Set</Button>
-            <Button onClick="startCoroutineDestoroySpawnedObjects" icon="trash-can-outline" class="icon-only"/>
+            <Button onClick="startCoroutineDestroySpawnedObjects" icon="trash-can-outline" class="icon-only"/>
         </HorizontalLayout>
         <HorizontalLayout>
             <Button onClick="startCoroutineSpawnTiles" icon="tile">Base Tiles</Button>
-            <Button onClick="startCoroutineDestoroyTiles" icon="trash-can-outline" class="icon-only"/>
+            <Button onClick="startCoroutineDestroyTiles" icon="trash-can-outline" class="icon-only"/>
         </HorizontalLayout>
         <HorizontalLayout>
             <Button onClick="startCoroutineSpawnOuterWall" icon="wall-outer">Outer Wall</Button>
-            <Button onClick="startCoroutineDestoroyOuterWall" icon="trash-can-outline" class="icon-only"/>
+            <Button onClick="startCoroutineDestroyOuterWall" icon="trash-can-outline" class="icon-only"/>
         </HorizontalLayout>
         <HorizontalLayout>
             <Button onClick="startCoroutineSpawnCenterWall" icon="wall-center">Center Wall</Button>
-            <Button onClick="startCoroutineDestoroyCenterWall" icon="trash-can-outline" class="icon-only"/>
+            <Button onClick="startCoroutineDestroyCenterWall" icon="trash-can-outline" class="icon-only"/>
         </HorizontalLayout>
         <HorizontalLayout>
             <Button onClick="startCoroutineSpawnInnerWalls" icon="wall-inner">Random Inner Walls</Button>
-            <Button onClick="startCoroutineDestoroyInnerWalls" icon="trash-can-outline" class="icon-only"/>
+            <Button onClick="startCoroutineDestroyInnerWalls" icon="trash-can-outline" class="icon-only"/>
         </HorizontalLayout>
     </VerticalLayout>
 </Panel>

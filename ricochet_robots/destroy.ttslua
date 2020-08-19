@@ -1,0 +1,43 @@
+-- tableにあるオブジェクトを1つずつ丁寧に破壊する
+local function destroy(objTable)
+    for index, obj in ipairs(objTable) do
+        destroyObject(obj)
+    end
+end
+
+function destroyInnerWalls()
+    destroy(spawnedObjects.wall.inner)
+    spawnedObjects.wall.inner = {}
+
+    return 1
+end
+
+function destroyOuterWall()
+    destroy(spawnedObjects.wall.outer)
+    spawnedObjects.wall.outer = {}
+
+    return 1
+end
+
+function destroyCenterWall()
+    destroy(spawnedObjects.wall.center)
+    spawnedObjects.wall.center = {}
+
+    return 1
+end
+
+function destroyTiles()
+    destroy(spawnedObjects.tile)
+    spawnedObjects.tile = {}
+
+    return 1
+end
+
+function destroySpawnedObjects()
+    destroyInnerWalls()
+    destroyOuterWall()
+    destroyCenterWall()
+    destroyTiles()
+
+    return 1
+end

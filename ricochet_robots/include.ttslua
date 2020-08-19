@@ -5,6 +5,6 @@
 -- 創造
 #include spawn
 -- 破壊
-#include destoroy
+#include destroy
 
 #include global
