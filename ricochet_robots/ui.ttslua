@@ -8,33 +8,45 @@ function hideMenu()
     UI.show("showMenuButton")
 end
 
-function startCoroutineStartingSet()
-    startLuaCoroutine(self, "spawnBaseTiles")
+function startCoroutineSpawnStartingSet()
+    startLuaCoroutine(self, "spawnTiles")
     startLuaCoroutine(self, "spawnOuterWall")
     startLuaCoroutine(self, "spawnCenterWall")
-    startLuaCoroutine(self, "spawnInnerWall")
+    startLuaCoroutine(self, "spawnInnerWalls")
 end
 
-function startCoroutineSpawnBaseTiles()
-    startLuaCoroutine(self, "spawnBaseTiles")
+function startCoroutineSpawnTiles()
+    startLuaCoroutine(self, "spawnTiles")
+end
+
+function startCoroutineDestoroyTiles()
+    startLuaCoroutine(self, "destoroyTiles")
 end
 
 function startCoroutineSpawnOuterWall()
     startLuaCoroutine(self, "spawnOuterWall")
 end
 
+function startCoroutineDestoroyOuterWall()
+    startLuaCoroutine(self, "destoroyOuterWall")
+end
+
 function startCoroutineSpawnCenterWall()
     startLuaCoroutine(self, "spawnCenterWall")
 end
 
+function startCoroutineDestoroyCenterWall()
+    startLuaCoroutine(self, "destoroyCenterWall")
+end
+
 function startCoroutineSpawnInnerWalls()
-    startLuaCoroutine(self, "spawnInnerWall")
+    startLuaCoroutine(self, "spawnInnerWalls")
 end
 
-function startCoroutineDeleteInnerWalls()
-    startLuaCoroutine(self, "deleteInnerWalls")
+function startCoroutineDestoroyInnerWalls()
+    startLuaCoroutine(self, "destoroyInnerWalls")
 end
 
-function startCoroutineDeleteSpawnedObjects()
-    startLuaCoroutine(self, "deleteSpawnedObjects")
+function startCoroutineDestoroySpawnedObjects()
+    startLuaCoroutine(self, "destoroySpawnedObjects")
 end

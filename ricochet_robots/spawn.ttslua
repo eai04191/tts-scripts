@@ -1,5 +1,5 @@
-function spawnBaseTiles()
-    deleteTiles()
+function spawnTiles()
+    destoroyTiles()
     -- 16*16
     for row = 1, 16 do
         for col = 1, 16 do
@@ -23,8 +23,8 @@ function spawnBaseTiles()
                     rotation
                 )
 
-                -- 1つずつウェイトを入れると遅すぎるので3つごとに入れる
-                if col % 5 == 0 then
+                -- 1つずつウェイトを入れると遅すぎるのでいくつか毎に入れる
+                if col % 16 == 0 then
                     wait(0.001)
                 end
             end
@@ -53,7 +53,7 @@ function spawnBaseTile(position, rotation)
 end
 
 function spawnOuterWall()
-    deleteOuterWall()
+    destoroyOuterWall()
     local wall = {
         type = "BlockSquare",
         scale = {x = GRID * 16, y = 1, z = 0.23},
@@ -90,7 +90,7 @@ function spawnOuterWall()
 end
 
 function spawnCenterWall()
-    deleteCenterWall()
+    destoroyCenterWall()
     local centerWall =
         spawnObject(
         {
@@ -107,8 +107,8 @@ function spawnCenterWall()
     return 1
 end
 
-function spawnInnerWall()
-    deleteInnerWalls()
+function spawnInnerWalls()
+    destoroyInnerWalls()
     local innerWallBase = {
         type = "BlockSquare",
         scale = {x = 1.5, y = 1, z = 0.23},
