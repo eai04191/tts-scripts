@@ -1,0 +1,47 @@
+-- スポーンしたオブジェクトなどを保存しておくグローバル変数
+spawnedObjects = {}
+spawnedInnerWalls = {}
+coloredTiles = {}
+
+function onload()
+    grid.setDefault()
+
+    if DEBUG then
+        ui.showMenu()
+    else
+        ui.hideMenu()
+    end
+end
+
+-- ロボットの下にあるタイルに色を付ける
+function setTileColor()
+    -- 色をリセットする
+    for _, tile in ipairs(coloredTiles) do
+        tile.setColorTint(COLOR.tile)
+    end
+
+    for _, guid in ipairs(robots_GUID) do
+        local robot = getObjectFromGUID(guid)
+        local position = robot.getPosition()
+        spawnObject(
+            {
+                type = "ScriptingTrigger",
+                position = position,
+                sound = false,
+                callback_function = function(zone)
+                    for i, obj in ipairs(zone.getObjects()) do
+                        -- log(obj.getName())
+                        if
+                            obj.tag == "Tile" and not string.find(obj.getName(), "Marker") and
+                                not string.find(obj.getName(), "Voltex")
+                         then
+                            table.insert(coloredTiles, obj)
+                            obj.setColorTint(robot.getColorTint())
+                        end
+                    end
+                    destroyObject(zone)
+                end
+            }
+        )
+    end
+end

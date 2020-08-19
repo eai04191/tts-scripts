@@ -1,0 +1,29 @@
+<Panel width="200" height="50" offsetXY="-8 250" rectAlignment="MiddleRight" allowDragging="true" returnToOriginalPositionWhenReleased="false" visibility="Admin">
+    <Defaults>
+        <Text color="White" outline="Black"/>
+        <Button iconWidth="24" textAlignment="MiddleLeft" padding="20 4 0 0"/>
+    </Defaults>
+
+    <Button onclick="showMenu" id="showMenuButton" icon="chevron-right" iconAlignment="Right" textAlignment="MiddleCenter">Show Menu</Button>
+    <VerticalLayout id="menu" width="200" height="580" rectAlignment="UpperRight">
+        <Button onclick="hideMenu" id="hideMenuButton" minHeight="25" icon="chevron-left">Close Menu</Button>
+
+        <Text>Grid Mode</Text>
+        <Button onClick="setEditMode" icon="wall">Set Wall Edit mode</Button>
+        <Button onClick="setPlayMode" icon="play">Set Play mode</Button>
+
+        <Text>Action</Text>
+        <Button onclick="setTileColor" icon="brush">Set Tile Color</Button>
+
+        <Text>Spawn</Text>
+        <Button onclick="startCoroutineStartingSet" minHeight="25" icon="blank">Spawn Starting Set</Button>
+        <Button onClick="startCoroutineSpawnBaseTiles" icon="tile">Spawn Base Tiles</Button>
+        <Button onClick="startCoroutineSpawnOuterWall" icon="wall-outer">Spawn Outer Wall</Button>
+        <Button onClick="startCoroutineSpawnCenterWall" icon="wall-center">Spawn Center Wall</Button>
+        <Button onClick="startCoroutineSpawnInnerWalls" icon="wall-inner">Spawn Inner Walls</Button>
+
+        <Text>Delete</Text>
+        <Button onClick="startCoroutineDeleteInnerWalls" icon="sort-variant-remove">Delete Inner Walls</Button>
+        <Button onClick="startCoroutineDeleteSpawnedObjects" icon="trash-can-outline">Delete ALL Spawned Objects</Button>
+    </VerticalLayout>
+</Panel>

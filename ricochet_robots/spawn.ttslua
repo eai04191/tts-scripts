@@ -1,0 +1,249 @@
+function spawnBaseTiles()
+    -- 16*16
+    for row = 1, 16 do
+        for col = 1, 16 do
+            -- 真ん中の4つはスポーンさせない
+            if col >= 8 and col < 10 and row >= 8 and row < 10 then
+                goto continue
+            end
+
+            do
+                local rotation = {x = 0, y = 90, z = 0}
+                if (col % 2 == 0) then
+                    rotation.y = 0
+                end
+
+                spawnBaseTile(
+                    {
+                        x = ORIGIN_POS.x + GRID * (col - 1),
+                        y = 1,
+                        z = ORIGIN_POS.z - GRID * (row - 1)
+                    },
+                    rotation
+                )
+
+                -- 1つずつウェイトを入れると遅すぎるので3つごとに入れる
+                if col % 5 == 0 then
+                    wait(0.001)
+                end
+            end
+            ::continue::
+        end
+    end
+
+    return 1
+end
+
+function spawnBaseTile(position, rotation)
+    local tile =
+        spawnObject(
+        {
+            type = "Custom_Token",
+            position = position,
+            rotation = rotation,
+            scale = {x = 0.4, y = 1, z = 0.4},
+            sound = false
+        }
+    )
+    tile.setCustomObject(
+        {
+            image = "http://cloud-3.steamusercontent.com/ugc/1485578894420475371/3C3B7C29D709DD2CBEE3E331B02CD3C0DB236403/"
+        }
+    )
+    tile.setColorTint(COLOR.tile)
+    tile.lock()
+    table.insert(spawnedObjects, tile)
+end
+
+function spawnOuterWall()
+    local wall = {
+        type = "BlockSquare",
+        scale = {x = GRID * 16, y = 1, z = 0.23},
+        position = {y = 1.45},
+        rotation = {x = 0, y = 0, z = 0}
+    }
+    local walls = {}
+
+    wall.position.x = 0
+    wall.position.z = ORIGIN_POS.z + GRID / 2
+    table.insert(walls, spawnObject(wall))
+
+    wall.position.x = 0
+    wall.position.z = ORIGIN_POS.z - GRID * 15 - GRID / 2
+    table.insert(walls, spawnObject(wall))
+
+    wall.position.x = ORIGIN_POS.x + GRID * 15 + GRID / 2
+    wall.position.z = -GRID
+    wall.rotation.y = 90
+    table.insert(walls, spawnObject(wall))
+
+    wall.position.x = ORIGIN_POS.x - GRID / 2
+    wall.position.z = -GRID
+    wall.rotation.y = 90
+    table.insert(walls, spawnObject(wall))
+
+    for _, wall in ipairs(walls) do
+        wall.lock()
+        wall.setColorTint(COLOR.wall)
+        table.insert(spawnedObjects, wall)
+    end
+
+    return 1
+end
+
+function spawnCenterWall()
+    local centerWall =
+        spawnObject(
+        {
+            type = "BlockSquare",
+            scale = {x = 1.8 * 2, y = 0.5, 2, z = 1.8 * 2},
+            position = {x = ORIGIN_POS.x + 1.8 * 7.5, y = 1, z = ORIGIN_POS.z - 1.8 * 7.5}
+        }
+    )
+
+    centerWall.lock()
+    centerWall.setColorTint(COLOR.wall)
+    table.insert(spawnedObjects, centerWall)
+
+    return 1
+end
+
+function spawnInnerWall()
+    deleteInnerWalls()
+    local innerWallBase = {
+        type = "BlockSquare",
+        scale = {x = 1.5, y = 1, z = 0.23},
+        position = {y = 1.45},
+        sound = false
+    }
+    local alreadyUsedTable = {}
+    -- 壁についている4つを作る
+
+    local function spawnHorizontalWall(right)
+        for i = 1, 2 do
+            ::start::
+            local random = math.random(15) - 1
+            if isAlreadyUsed(alreadyUsedTable, random) then
+                log("壁際 水平: すでに使われている値を引いたので再抽選します……")
+                goto start
+            end
+            table.insert(alreadyUsedTable, random)
+            local innerWall = copy(innerWallBase)
+            if (right) then
+                innerWall.position.x = ORIGIN_POS.x + GRID * 15
+            else
+                innerWall.position.x = ORIGIN_POS.x
+            end
+            innerWall.position.z = ORIGIN_POS.z - random * GRID - (GRID / 2)
+            local wall = spawnObject(innerWall)
+            wall.setColorTint(COLOR.wall)
+            wall.lock()
+            table.insert(spawnedInnerWalls, wall)
+        end
+    end
+
+    local function spawnVerticalWall(down)
+        for i = 1, 2 do
+            ::start::
+            -- TODO: あとでなおす
+            local random = math.random(15) - 1
+            if isAlreadyUsed(alreadyUsedTable, random) then
+                log("壁際 垂直: すでに使われている値を引いたので再抽選します……")
+                goto start
+            end
+            table.insert(alreadyUsedTable, random)
+            local innerWall = copy(innerWallBase)
+            innerWall.rotation = {x = 0, y = 90, z = 0}
+            if (down) then
+                innerWall.position.z = ORIGIN_POS.z - GRID * 15
+            else
+                innerWall.position.z = ORIGIN_POS.z
+            end
+            innerWall.position.x = ORIGIN_POS.x + random * GRID + (GRID / 2)
+            local wall = spawnObject(innerWall)
+            wall.setColorTint(COLOR.wall)
+            wall.lock()
+            table.insert(spawnedInnerWalls, wall)
+        end
+    end
+
+    -- 水平 左 2個
+    spawnHorizontalWall()
+    -- 水平 右 2個
+    spawnHorizontalWall(true)
+    -- 垂直 上 2個
+    spawnVerticalWall()
+    -- 垂直 下 2個
+    spawnVerticalWall(true)
+
+    spawnLshapeWall()
+    return 1
+end
+
+function spawnLshapeWall()
+    -- TODO: ここにボームボード4種類分のループ
+
+    -- 4種類をL字を配置する
+    local alreadyUsed = {}
+    for i = 1, 4 do
+        log(i .. "個目")
+        ::start::
+        local col = math.random(1, 7)
+        local row = math.random(1, 7)
+
+        if (col == 7 and row == 7) then
+            log("LShape: 7,7なので再抽選")
+            goto start
+        end
+
+        local position = {
+            x = ORIGIN_POS.x + row * GRID,
+            y = 2,
+            z = ORIGIN_POS.z - col * GRID
+        }
+
+        if isAlreadyUsedTable(alreadyUsed, position) then
+            log("LShape: 座標がかぶったので再抽選")
+            goto start
+        end
+
+        -- 現在の位置をalreadyUsedに保存
+        table.insert(alreadyUsed, position)
+
+        local marker =
+            spawnObject(
+            {
+                type = "BlockSquare",
+                position = position,
+                sound = false
+            }
+        )
+        local LshapePosition = copy(position)
+        LshapePosition.y = 0.95
+        local LshapeRotation = {x = 0, y = 0, z = 0}
+        LshapeRotation.y = (i - 1) * 90
+        local Lshape =
+            spawnObject(
+            {
+                type = "Custom_Model",
+                position = LshapePosition,
+                rotation = LshapeRotation,
+                sound = false
+            }
+        )
+        Lshape.setCustomObject(
+            {
+                mesh = "http://cloud-3.steamusercontent.com/ugc/1485579112396527243/FB9EBAB1746B494CE27B877044A04C91515498A5/",
+                collider = "http://cloud-3.steamusercontent.com/ugc/1485579112396527243/FB9EBAB1746B494CE27B877044A04C91515498A5/",
+                convex = false,
+                material = 1,
+                specular_intensity = 0
+            }
+        )
+        Lshape.setColorTint(COLOR.wall)
+        Lshape.lock()
+        log("X: " .. position.x .. ",Y: " .. position.z .. " に配置")
+        table.insert(spawnedInnerWalls, marker)
+        table.insert(spawnedInnerWalls, Lshape)
+    end
+end

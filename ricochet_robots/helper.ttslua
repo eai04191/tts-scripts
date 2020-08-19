@@ -1,0 +1,76 @@
+-- DEBUG が true のときのみ print する
+function log(string)
+    if DEBUG then
+        print(string)
+    end
+end
+
+-- テーブルの中に値が含まれているかを確認する
+function isAlreadyUsed(table, value)
+    for _, v in pairs(table) do
+        if v == value then
+            return true
+        end
+    end
+    return false
+end
+
+-- テーブルの内容をconcatして、2次元テーブルに含まれているかを確認する
+function isAlreadyUsedTable(tableUsedAlready, comparingTable)
+    for _, alreadyTable in pairs(tableUsedAlready) do
+        if pconcat(alreadyTable) == pconcat(comparingTable) then
+            return true
+        end
+    end
+    return false
+end
+
+-- インデックスのないテーブルを無理やりconcatする
+-- 2次元テーブルではエラー
+-- From: https://stackoverflow.com/questions/30903529/lua-table-concat-with-string-keys
+function pconcat(tab)
+    local ctab, n = {}, 1
+    for _, v in pairs(tab) do
+        ctab[n] = v
+        n = n + 1
+    end
+    return table.concat(ctab)
+end
+
+-- From: https://steamcommunity.com/sharedfiles/filedetails/?id=752690530
+function wait(time)
+    local start = os.time()
+    repeat
+        coroutine.yield(0)
+    until os.time() > start + time
+end
+
+-- テーブルをコピーする
+-- From: https://stackoverflow.com/questions/640642/how-do-you-copy-a-lua-table-by-value
+function copy(obj, seen)
+    if type(obj) ~= "table" then
+        return obj
+    end
+    if seen and seen[obj] then
+        return seen[obj]
+    end
+    local s = seen or {}
+    local res = setmetatable({}, getmetatable(obj))
+    s[obj] = res
+    for k, v in pairs(obj) do
+        res[copy(k, s)] = copy(v, s)
+    end
+    return res
+end
+
+-- Fisher-Yates shuffle
+-- From: https://stackoverflow.com/questions/35572435/how-do-you-do-the-fisher-yates-shuffle-in-lua
+function FYShuffle(tInput)
+    local tReturn = {}
+    for i = #tInput, 1, -1 do
+        local j = math.random(i)
+        tInput[i], tInput[j] = tInput[j], tInput[i]
+        table.insert(tReturn, tInput[i])
+    end
+    return tReturn
+end

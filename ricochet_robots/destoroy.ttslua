@@ -1,0 +1,25 @@
+-- tableにあるオブジェクトを1つずつ丁寧に破壊する
+local function destoroy(objTable)
+    for index, obj in ipairs(objTable) do
+        destroyObject(obj)
+        -- 一気に消すとつまらないので適度にウェイトを入れる
+        if index % 4 == 0 then
+            wait(0.001)
+        end
+    end
+end
+
+function deleteInnerWalls()
+    destoroy(spawnedInnerWalls)
+    spawnedInnerWalls = {}
+
+    return 1
+end
+
+function deleteSpawnedObjects()
+    deleteInnerWalls()
+    destoroy(spawnedObjects)
+    spawnedObjects = {}
+
+    return 1
+end

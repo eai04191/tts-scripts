@@ -1,0 +1,42 @@
+ui = {}
+
+function ui.showMenu()
+    UI.show("menu")
+    UI.hide("showMenuButton")
+end
+
+function ui.hideMenu()
+    UI.hide("menu")
+    UI.show("showMenuButton")
+end
+
+function startCoroutineStartingSet()
+    startLuaCoroutine(self, "spawnBaseTiles")
+    startLuaCoroutine(self, "spawnOuterWall")
+    startLuaCoroutine(self, "spawnCenterWall")
+    startLuaCoroutine(self, "spawnInnerWall")
+end
+
+function startCoroutineSpawnBaseTiles()
+    startLuaCoroutine(self, "spawnBaseTiles")
+end
+
+function startCoroutineSpawnOuterWall()
+    startLuaCoroutine(self, "spawnOuterWall")
+end
+
+function startCoroutineSpawnCenterWall()
+    startLuaCoroutine(self, "spawnCenterWall")
+end
+
+function startCoroutineSpawnInnerWalls()
+    startLuaCoroutine(self, "spawnInnerWall")
+end
+
+function startCoroutineDeleteInnerWalls()
+    startLuaCoroutine(self, "deleteInnerWalls")
+end
+
+function startCoroutineDeleteSpawnedObjects()
+    startLuaCoroutine(self, "deleteSpawnedObjects")
+end

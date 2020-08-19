@@ -1,0 +1,50 @@
+DEBUG = true
+
+ASSET = {
+    tile = "http://cloud-3.steamusercontent.com/ugc/1485578894420475371/3C3B7C29D709DD2CBEE3E331B02CD3C0DB236403/",
+    lshapeWall = "http://cloud-3.steamusercontent.com/ugc/1485579112396527243/FB9EBAB1746B494CE27B877044A04C91515498A5/",
+    marker = {
+        vortex = "http://cloud-3.steamusercontent.com/ugc/1485579112396581862/33F20252C63EE02CF65715B0BAA2F2838C076C9B/",
+        red = {
+            circle = "http://cloud-3.steamusercontent.com/ugc/1485579112396581153/6AD7EAAEECBA0CAE45E16D08D7F2D38DFB98A4C5/",
+            rectangle = "http://cloud-3.steamusercontent.com/ugc/1485579112396581275/729DCBABE7126E14A8366399A59B54AF43D96C3F/",
+            triangle = "http://cloud-3.steamusercontent.com/ugc/1485579112396581338/68712AC1B0A01985D31500208DF6F743F36B76C6/",
+            hexagon = "http://cloud-3.steamusercontent.com/ugc/1485579112396581535/A113BD7B02BF2DB5FC2F0D3431D20101FC5BB085/"
+        },
+        blue = {
+            circle = "http://cloud-3.steamusercontent.com/ugc/1485579112396581085/293393FAEEC15C19F0297AA527BD4E20341DC4D7/",
+            rectangle = "http://cloud-3.steamusercontent.com/ugc/1485579112396580811/0AA4FDE3B2EC9CC72FD97D76103738E8DC7AD671/",
+            triangle = "http://cloud-3.steamusercontent.com/ugc/1485579112396580946/D870AD8B37D2888A75F5A29F1D27E97CCE0ED6E3/",
+            hexagon = "http://cloud-3.steamusercontent.com/ugc/1485579112396581396/999CAE7C23FFD59CB2D85166BCFC7A11B9AAA6A4/"
+        },
+        yellow = {
+            circle = "http://cloud-3.steamusercontent.com/ugc/1485579112396581596/5695CF0BC177EAE8124C1A7D89C7BCA77938E529/",
+            rectangle = "http://cloud-3.steamusercontent.com/ugc/1485579112396581723/F01537983C89042F220A5557A5E7AD3F1FFBD062/",
+            triangle = "http://cloud-3.steamusercontent.com/ugc/1485579112396581788/8D5D90C5557C0D0D6F012BE80C27F544F7A64613/",
+            hexagon = "http://cloud-3.steamusercontent.com/ugc/1485579112396581662/B2022DF247B6CCB13BA95712B85CCB6851D628CD/"
+        },
+        green = {
+            circle = "http://cloud-3.steamusercontent.com/ugc/1485579112396581213/540ABF3D86469DD2160E6979420D4DCF68C6AB9C/",
+            rectangle = "http://cloud-3.steamusercontent.com/ugc/1485579112396580872/CBBFF484D70B0B9D6DD1580CCD39582F19C6CD6D/",
+            triangle = "http://cloud-3.steamusercontent.com/ugc/1485579112396581011/B25B4AE08112B8126AFF277F129759D9F0E1B6C1/",
+            hexagon = "http://cloud-3.steamusercontent.com/ugc/1485579112396581460/7BF8F5352916CCEFF5330A0CA1D3204C8909051A/"
+        }
+    }
+}
+
+COLOR = {
+    -- RGB: 209, 209, 209
+    tile = {0.819, 0.819, 0.819},
+    wall = "Brown"
+}
+
+robots_GUID = {
+    "aef036",
+    "b2b07c",
+    "7cc8e8",
+    "9eb0e2"
+}
+
+-- オブジェクトをスポーンさせる位置の基準となる、左上のタイルの位置
+ORIGIN_POS = {x = -13.50, y = 1, z = 11.70}
+GRID = 1.8
