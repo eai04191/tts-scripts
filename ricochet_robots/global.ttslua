@@ -5,7 +5,8 @@ spawnedObjects = {
         outer = {},
         center = {}
     },
-    tile = {}
+    tile = {},
+    marker = {}
 }
 coloredTiles = {}
 

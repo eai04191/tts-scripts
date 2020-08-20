@@ -33,11 +33,19 @@ function destroyTiles()
     return 1
 end
 
+function destroyMarkers()
+    destroy(spawnedObjects.marker)
+    spawnedObjects.marker = {}
+
+    return 1
+end
+
 function destroySpawnedObjects()
     destroyInnerWalls()
     destroyOuterWall()
     destroyCenterWall()
     destroyTiles()
+    destroyMarkers()
 
     return 1
 end

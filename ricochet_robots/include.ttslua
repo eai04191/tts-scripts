@@ -2,6 +2,7 @@
 #include helper
 #include grid
 #include ui
+#include marker
 -- 創造
 #include spawn
 -- 破壊

@@ -109,6 +109,9 @@ end
 
 function spawnInnerWalls()
     destroyInnerWalls()
+    destroyMarkers()
+    resetAbilableMarkers()
+
     -- ゲームボード4枚分
     for board = 1, 4 do
         log("ボード" .. board .. "枚目:")
@@ -189,7 +192,8 @@ function spawnInnerWalls()
 
         -- L字の壁
         do
-            alreadyUsed = {}
+            local markerColors = {"red", "blue", "green", "yellow"}
+            local alreadyUsed = {}
             -- 4つ設置するので4回ループ
             for i = 1, 4 do
                 -- ボード内で使われた座標を保持しておくテーブル
@@ -232,17 +236,23 @@ function spawnInnerWalls()
                 -- 現在の位置をalreadyUsedに保存
                 table.insert(alreadyUsed, position)
 
-                local marker =
-                    spawnObject(
-                    {
-                        type = "BlockSquare",
-                        position = position,
-                        sound = false
-                    }
-                )
+                -- 適当なマーカーの色を取得する
+                local markerColor = nil
+                for _, color in pairs(markerColors) do
+                    markerColor = color
+                end
+                -- 取得した色をテーブルから削除する
+                for index, value in pairs(markerColors) do
+                    if value == markerColor then
+                        table.remove(markerColors, index)
+                        break
+                    end
+                end
 
-                marker.lock()
-                table.insert(spawnedObjects.wall.inner, marker)
+                -- マーカーを配置する
+                local marker = (getRandomMarker(markerColor))
+                marker.setPositionSmooth(position, false, false)
+                table.insert(spawnedObjects.marker, marker)
 
                 local LshapePosition = copy(position)
                 LshapePosition.y = 0.95

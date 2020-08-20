@@ -1,0 +1,81 @@
+local availableMarkers = nil
+
+local function firstToUpper(str)
+    return (str:gsub("^%l", string.upper))
+end
+
+-- 色を指定してまだ配置されていないマーカーをランダムに取得する
+function getRandomMarker(color)
+    log(color)
+    local count = 0
+    for _, shape in pairs(availableMarkers[color]) do
+        count = count + 1
+    end
+    local shape = availableMarkers[color][math.random(count)]
+    local marker =
+        spawnObject(
+        {
+            type = "Custom_Token",
+            sound = false,
+            position = {x = 0, y = 0, z = 0},
+            scale = {x = 0.4, y = 1, z = 0.4},
+            rotation = {x = 0, y = math.random(0, 360), z = 0},
+            callback_function = function(obj)
+                Wait.time(
+                    function()
+                        obj.lock()
+                    end,
+                    3
+                )
+            end
+        }
+    )
+    marker.setCustomObject(
+        {
+            image = ASSET.marker[color][shape],
+            thickness = 0.1
+        }
+    )
+    marker.setName(string.format("%s %s Marker", firstToUpper(color), firstToUpper(shape)))
+    removeAbilableMarker(color, shape)
+    return marker
+end
+
+-- 配置されていないマーカーテーブルから削除する
+function removeAbilableMarker(color, shape)
+    for index, value in pairs(availableMarkers[color]) do
+        if value == shape then
+            table.remove(availableMarkers[color], index)
+            break
+        end
+    end
+end
+
+function resetAbilableMarkers()
+    availableMarkers = {
+        red = {
+            "circle",
+            "rectangle",
+            "triangle",
+            "hexagon"
+        },
+        blue = {
+            "circle",
+            "rectangle",
+            "triangle",
+            "hexagon"
+        },
+        yellow = {
+            "circle",
+            "rectangle",
+            "triangle",
+            "hexagon"
+        },
+        green = {
+            "circle",
+            "rectangle",
+            "triangle",
+            "hexagon"
+        }
+    }
+end
