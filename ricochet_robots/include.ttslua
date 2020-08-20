@@ -1,6 +1,6 @@
 #include constants
-#include grid
 #include helper
+#include grid
 #include ui
 -- 創造
 #include spawn

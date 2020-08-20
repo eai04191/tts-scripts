@@ -108,41 +108,41 @@ function spawnCenterWall()
 end
 
 function spawnInnerWalls()
-    -- 壁についている4つを作る
-    -- TODO: 名前を変える
-    local function spawnInnerKabenituiteiruWall()
-        destroyInnerWalls()
-        local wallBaseParams = {
-            type = "BlockSquare",
-            scale = {x = 1.5, y = 1, z = 0.23},
-            position = {y = 1.45},
-            sound = false
-        }
+    destroyInnerWalls()
+    -- ゲームボード4枚分
+    for board = 1, 4 do
+        log("ボード" .. board .. "枚目:")
+        local basePosition = nil
+        if board == 1 then
+            basePosition = {
+                x = ORIGIN_POS.x,
+                z = ORIGIN_POS.z
+            }
+        elseif board == 2 then
+            basePosition = {
+                x = ORIGIN_POS.x + 15 * GRID,
+                z = ORIGIN_POS.z
+            }
+        elseif board == 3 then
+            basePosition = {
+                x = ORIGIN_POS.x,
+                z = ORIGIN_POS.z - 15 * GRID
+            }
+        elseif board == 4 then
+            basePosition = {
+                x = ORIGIN_POS.x + 15 * GRID,
+                z = ORIGIN_POS.z - 15 * GRID
+            }
+        end
+        basePosition.y = 1.45
 
-        -- ゲームボード4枚分
-        for i = 1, 4 do
-            local basePosition = nil
-            if i == 1 then
-                basePosition = {
-                    x = ORIGIN_POS.x,
-                    z = ORIGIN_POS.z
-                }
-            elseif i == 2 then
-                basePosition = {
-                    x = ORIGIN_POS.x + 15 * GRID,
-                    z = ORIGIN_POS.z
-                }
-            elseif i == 3 then
-                basePosition = {
-                    x = ORIGIN_POS.x,
-                    z = ORIGIN_POS.z - 15 * GRID
-                }
-            elseif i == 4 then
-                basePosition = {
-                    x = ORIGIN_POS.x + 15 * GRID,
-                    z = ORIGIN_POS.z - 15 * GRID
-                }
-            end
+        -- 外壁についている内壁
+        do
+            local wallBaseParams = {
+                type = "BlockSquare",
+                scale = {x = 1.5, y = 1, z = 0.23},
+                sound = false
+            }
 
             -- 各ボードは8*8なので、壁を置ける場所は7箇所
             -- 壁:  １２３４５６７
@@ -151,18 +151,17 @@ function spawnInnerWalls()
             -- basePositionから+または-GRID/2された場所が1番目の壁の場所
 
             -- 横と縦のを作るので2回ループ。1が横2が縦
-            for j = 1, 2 do
+            for i = 1, 2 do
                 -- 1~6の範囲でランダムの位置を求める。
                 -- 端にを置かないことを考慮する必要があるが、+GRID/2しているところが端なので、最低でも+1すれば端にはならない
                 local random = math.random(1, 6)
                 local position = copy(basePosition)
-                position.y = 1.45
                 local rotation = {}
 
-                if j == 1 then
+                if i == 1 then
                     -- 横
                     rotation = {x = 0, y = 0, z = 0}
-                    if i == 1 or i == 2 then
+                    if board == 1 or board == 2 then
                         position.z = position.z - GRID / 2 - random * GRID
                     else
                         position.z = position.z + GRID / 2 + random * GRID
@@ -170,7 +169,7 @@ function spawnInnerWalls()
                 else
                     -- 縦
                     rotation = {x = 0, y = 90, z = 0}
-                    if i == 1 or i == 3 then
+                    if board == 1 or board == 3 then
                         position.x = position.x + GRID / 2 + random * GRID
                     else
                         position.x = position.x - GRID / 2 - random * GRID
@@ -187,77 +186,92 @@ function spawnInnerWalls()
                 table.insert(spawnedObjects.wall.inner, wall)
             end
         end
-    end
-    spawnInnerKabenituiteiruWall()
 
-    spawnLshapeWall()
+        -- L字の壁
+        do
+            alreadyUsed = {}
+            -- 4つ設置するので4回ループ
+            for i = 1, 4 do
+                -- ボード内で使われた座標を保持しておくテーブル
+                ::start::
+                -- 端には接地しないので2-8でランダムに位置を求める
+                local col = math.random(2, 8)
+                local row = math.random(2, 8)
+                log("　L字" .. i .. "個目: " .. col .. ", " .. row)
+
+                -- centerWallに重なる位置は禁止とする
+                if
+                    (col == 8 and row == 8) or (col == 7 and row == 7) or (col == 8 and row == 7) or
+                        (col == 7 and row == 8)
+                 then
+                    log("　　禁止区域なので再抽選")
+                    goto start
+                end
+
+                local position = {y = 1.6}
+                if board == 1 then
+                    position.x = basePosition.x + (row - 1) * GRID
+                    position.z = basePosition.z - (col - 1) * GRID
+                elseif board == 2 then
+                    position.x = basePosition.x - (row - 1) * GRID
+                    position.z = basePosition.z - (col - 1) * GRID
+                elseif board == 3 then
+                    position.x = basePosition.x + (row - 1) * GRID
+                    position.z = basePosition.z + (col - 1) * GRID
+                elseif board == 4 then
+                    position.x = basePosition.x - (row - 1) * GRID
+                    position.z = basePosition.z + (col - 1) * GRID
+                end
+
+                -- 重複チェック
+                if isAlreadyUsedTable(alreadyUsed, position) then
+                    log("　　既存の座標と被ったので再抽選")
+                    goto start
+                end
+
+                -- 現在の位置をalreadyUsedに保存
+                table.insert(alreadyUsed, position)
+
+                local marker =
+                    spawnObject(
+                    {
+                        type = "BlockSquare",
+                        position = position,
+                        sound = false
+                    }
+                )
+
+                marker.lock()
+                table.insert(spawnedObjects.wall.inner, marker)
+
+                local LshapePosition = copy(position)
+                LshapePosition.y = 0.95
+                local LshapeRotation = {x = 0, y = 0, z = 0}
+                LshapeRotation.y = i * 90
+                local Lshape =
+                    spawnObject(
+                    {
+                        type = "Custom_Model",
+                        position = LshapePosition,
+                        rotation = LshapeRotation,
+                        sound = false
+                    }
+                )
+                Lshape.setCustomObject(
+                    {
+                        mesh = ASSET.wall.lshape.mesh,
+                        collider = ASSET.wall.lshape.mesh,
+                        convex = false,
+                        material = 1,
+                        specular_intensity = 0
+                    }
+                )
+                Lshape.setColorTint(COLOR.wall)
+                Lshape.lock()
+                table.insert(spawnedObjects.wall.inner, Lshape)
+            end
+        end
+    end
+
     return 1
-end
-
-function spawnLshapeWall()
-    -- TODO: ここにボームボード4種類分のループ
-
-    -- 4種類をL字を配置する
-    local alreadyUsed = {}
-    for i = 1, 4 do
-        log(i .. "個目")
-        ::start::
-        local col = math.random(1, 7)
-        local row = math.random(1, 7)
-
-        if (col == 7 and row == 7) then
-            log("LShape: 7,7なので再抽選")
-            goto start
-        end
-
-        local position = {
-            x = ORIGIN_POS.x + row * GRID,
-            y = 2,
-            z = ORIGIN_POS.z - col * GRID
-        }
-
-        if isAlreadyUsedTable(alreadyUsed, position) then
-            log("LShape: 座標がかぶったので再抽選")
-            goto start
-        end
-
-        -- 現在の位置をalreadyUsedに保存
-        table.insert(alreadyUsed, position)
-
-        local marker =
-            spawnObject(
-            {
-                type = "BlockSquare",
-                position = position,
-                sound = false
-            }
-        )
-        local LshapePosition = copy(position)
-        LshapePosition.y = 0.95
-        local LshapeRotation = {x = 0, y = 0, z = 0}
-        LshapeRotation.y = (i - 1) * 90
-        local Lshape =
-            spawnObject(
-            {
-                type = "Custom_Model",
-                position = LshapePosition,
-                rotation = LshapeRotation,
-                sound = false
-            }
-        )
-        Lshape.setCustomObject(
-            {
-                mesh = ASSET.wall.lshape.mesh,
-                collider = ASSET.wall.lshape.mesh,
-                convex = false,
-                material = 1,
-                specular_intensity = 0
-            }
-        )
-        Lshape.setColorTint(COLOR.wall)
-        Lshape.lock()
-        log("X: " .. position.x .. ",Y: " .. position.z .. " に配置")
-        table.insert(spawnedObjects.wall.inner, marker)
-        table.insert(spawnedObjects.wall.inner, Lshape)
-    end
 end
