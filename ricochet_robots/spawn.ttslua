@@ -108,72 +108,87 @@ function spawnCenterWall()
 end
 
 function spawnInnerWalls()
-    destroyInnerWalls()
-    local innerWallBase = {
-        type = "BlockSquare",
-        scale = {x = 1.5, y = 1, z = 0.23},
-        position = {y = 1.45},
-        sound = false
-    }
-    local alreadyUsedTable = {}
     -- 壁についている4つを作る
+    -- TODO: 名前を変える
+    local function spawnInnerKabenituiteiruWall()
+        destroyInnerWalls()
+        local wallBaseParams = {
+            type = "BlockSquare",
+            scale = {x = 1.5, y = 1, z = 0.23},
+            position = {y = 1.45},
+            sound = false
+        }
 
-    local function spawnHorizontalWall(right)
-        for i = 1, 2 do
-            ::start::
-            local random = math.random(15) - 1
-            if isAlreadyUsed(alreadyUsedTable, random) then
-                log("壁際 水平: すでに使われている値を引いたので再抽選します……")
-                goto start
+        -- ゲームボード4枚分
+        for i = 1, 4 do
+            local basePosition = nil
+            if i == 1 then
+                basePosition = {
+                    x = ORIGIN_POS.x,
+                    z = ORIGIN_POS.z
+                }
+            elseif i == 2 then
+                basePosition = {
+                    x = ORIGIN_POS.x + 15 * GRID,
+                    z = ORIGIN_POS.z
+                }
+            elseif i == 3 then
+                basePosition = {
+                    x = ORIGIN_POS.x,
+                    z = ORIGIN_POS.z - 15 * GRID
+                }
+            elseif i == 4 then
+                basePosition = {
+                    x = ORIGIN_POS.x + 15 * GRID,
+                    z = ORIGIN_POS.z - 15 * GRID
+                }
             end
-            table.insert(alreadyUsedTable, random)
-            local innerWall = copy(innerWallBase)
-            if (right) then
-                innerWall.position.x = ORIGIN_POS.x + GRID * 15
-            else
-                innerWall.position.x = ORIGIN_POS.x
+
+            -- 各ボードは8*8なので、壁を置ける場所は7箇所
+            -- 壁:  １２３４５６７
+            -- 床: １２３４５６７８
+
+            -- basePositionから+または-GRID/2された場所が1番目の壁の場所
+
+            -- 横と縦のを作るので2回ループ。1が横2が縦
+            for j = 1, 2 do
+                -- 1~6の範囲でランダムの位置を求める。
+                -- 端にを置かないことを考慮する必要があるが、+GRID/2しているところが端なので、最低でも+1すれば端にはならない
+                local random = math.random(1, 6)
+                local position = copy(basePosition)
+                position.y = 1.45
+                local rotation = {}
+
+                if j == 1 then
+                    -- 横
+                    rotation = {x = 0, y = 0, z = 0}
+                    if i == 1 or i == 2 then
+                        position.z = position.z - GRID / 2 - random * GRID
+                    else
+                        position.z = position.z + GRID / 2 + random * GRID
+                    end
+                else
+                    -- 縦
+                    rotation = {x = 0, y = 90, z = 0}
+                    if i == 1 or i == 3 then
+                        position.x = position.x + GRID / 2 + random * GRID
+                    else
+                        position.x = position.x - GRID / 2 - random * GRID
+                    end
+                end
+
+                local wallParams = copy(wallBaseParams)
+                wallParams.position = position
+                wallParams.rotation = rotation
+
+                local wall = spawnObject(wallParams)
+                wall.setColorTint(COLOR.wall)
+                wall.lock()
+                table.insert(spawnedObjects.wall.inner, wall)
             end
-            innerWall.position.z = ORIGIN_POS.z - random * GRID - (GRID / 2)
-            local wall = spawnObject(innerWall)
-            wall.setColorTint(COLOR.wall)
-            wall.lock()
-            table.insert(spawnedObjects.wall.inner, wall)
         end
     end
-
-    local function spawnVerticalWall(down)
-        for i = 1, 2 do
-            ::start::
-            -- TODO: あとでなおす
-            local random = math.random(15) - 1
-            if isAlreadyUsed(alreadyUsedTable, random) then
-                log("壁際 垂直: すでに使われている値を引いたので再抽選します……")
-                goto start
-            end
-            table.insert(alreadyUsedTable, random)
-            local innerWall = copy(innerWallBase)
-            innerWall.rotation = {x = 0, y = 90, z = 0}
-            if (down) then
-                innerWall.position.z = ORIGIN_POS.z - GRID * 15
-            else
-                innerWall.position.z = ORIGIN_POS.z
-            end
-            innerWall.position.x = ORIGIN_POS.x + random * GRID + (GRID / 2)
-            local wall = spawnObject(innerWall)
-            wall.setColorTint(COLOR.wall)
-            wall.lock()
-            table.insert(spawnedObjects.wall.inner, wall)
-        end
-    end
-
-    -- 水平 左 2個
-    spawnHorizontalWall()
-    -- 水平 右 2個
-    spawnHorizontalWall(true)
-    -- 垂直 上 2個
-    spawnVerticalWall()
-    -- 垂直 下 2個
-    spawnVerticalWall(true)
+    spawnInnerKabenituiteiruWall()
 
     spawnLshapeWall()
     return 1
