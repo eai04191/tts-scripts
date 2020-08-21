@@ -8,6 +8,8 @@ end
 function destroyInnerWalls()
     destroy(spawnedObjects.wall.inner)
     spawnedObjects.wall.inner = {}
+    destroy(spawnedObjects.marker)
+    spawnedObjects.marker = {}
 
     return 1
 end
