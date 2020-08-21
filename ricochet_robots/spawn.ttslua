@@ -57,7 +57,7 @@ function spawnOuterWall()
     local wall = {
         type = "BlockSquare",
         scale = {x = GRID * 16, y = 1, z = 0.23},
-        position = {y = 1.45},
+        position = {y = -0.15},
         rotation = {x = 0, y = 0, z = 0}
     }
     local walls = {}
@@ -81,6 +81,7 @@ function spawnOuterWall()
     table.insert(walls, spawnObject(wall))
 
     for _, wall in ipairs(walls) do
+        wall.setPositionSmooth({wall.getPosition()["x"], 1.45, wall.getPosition()["z"]}, false, false)
         wall.lock()
         wall.setColorTint(COLOR.wall)
         table.insert(spawnedObjects.wall.outer, wall)
@@ -137,7 +138,7 @@ function spawnInnerWalls()
                 z = ORIGIN_POS.z - 15 * GRID
             }
         end
-        basePosition.y = 1.45
+        basePosition.y = -0.15
 
         -- 外壁についている内壁
         do
@@ -185,6 +186,7 @@ function spawnInnerWalls()
 
                 local wall = spawnObject(wallParams)
                 wall.setColorTint(COLOR.wall)
+                wall.setPositionSmooth({position.x, 1.45, position.z}, false, false)
                 wall.lock()
                 table.insert(spawnedObjects.wall.inner, wall)
             end
@@ -262,7 +264,7 @@ function spawnInnerWalls()
                     spawnObject(
                     {
                         type = "Custom_Model",
-                        position = LshapePosition,
+                        position = {x = LshapePosition.x, y = -0.1, z = LshapePosition.z},
                         rotation = LshapeRotation,
                         sound = false
                     }
@@ -277,6 +279,7 @@ function spawnInnerWalls()
                     }
                 )
                 Lshape.setColorTint(COLOR.wall)
+                Lshape.setPositionSmooth(LshapePosition, false, false)
                 Lshape.lock()
                 table.insert(spawnedObjects.wall.inner, Lshape)
             end
