@@ -6,7 +6,6 @@ end
 
 -- 色を指定してまだ配置されていないマーカーをランダムに取得する
 function getRandomMarker(color)
-    log(color)
     local count = 0
     for _, shape in pairs(availableMarkers[color]) do
         count = count + 1
@@ -25,7 +24,7 @@ function getRandomMarker(color)
                     function()
                         obj.lock()
                     end,
-                    3
+                    4
                 )
             end
         }

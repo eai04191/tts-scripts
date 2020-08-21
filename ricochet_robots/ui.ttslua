@@ -19,16 +19,23 @@ function hideMenu()
 end
 
 function startCoroutineSpawnStartingSet()
+    makeButtonUnInteractable("spawnStartingSet", 1.5)
     startLuaCoroutine(self, "startCoroutineSpawnTiles")
     startLuaCoroutine(self, "startCoroutineSpawnOuterWall")
     startLuaCoroutine(self, "startCoroutineSpawnCenterWall")
-    startLuaCoroutine(self, "startCoroutineSpawnInnerWalls")
-    makeButtonUnInteractable("spawnStartingSet", 1.5)
+    destroyInnerWalls()
+    destroyMarkers()
+    Wait.time(
+        function()
+            startLuaCoroutine(self, "startCoroutineSpawnInnerWalls")
+        end,
+        1
+    )
 end
 
 function startCoroutineSpawnTiles()
-    startLuaCoroutine(self, "spawnTiles")
     makeButtonUnInteractable("spawnTiles", 1.5)
+    startLuaCoroutine(self, "spawnTiles")
     return 1
 end
 
@@ -55,8 +62,10 @@ function startCoroutineDestroyCenterWall()
 end
 
 function startCoroutineSpawnInnerWalls()
-    startLuaCoroutine(self, "spawnInnerWalls")
     makeButtonUnInteractable("spawnInnerWalls", 0.5)
+    destroyInnerWalls()
+    destroyMarkers()
+    startLuaCoroutine(self, "spawnInnerWalls")
     return 1
 end
 

@@ -40,7 +40,12 @@ function spawnBaseTile(position, rotation)
         spawnObject(
         {
             type = "Custom_Token",
-            position = position,
+            -- 真ん中らへん
+            position = {
+                x = ORIGIN_POS.x + GRID * 7 + GRID / 2,
+                y = 0.5,
+                z = ORIGIN_POS.z - GRID * 7 - GRID / 2
+            },
             rotation = rotation,
             scale = {x = 0.4, y = 1, z = 0.4},
             sound = false
@@ -48,6 +53,7 @@ function spawnBaseTile(position, rotation)
     )
     tile.setCustomObject({image = ASSET.tile})
     tile.setColorTint(COLOR.tile)
+    tile.setPositionSmooth(position, false, false)
     tile.lock()
     table.insert(spawnedObjects.tile, tile)
 end
@@ -109,8 +115,6 @@ function spawnCenterWall()
 end
 
 function spawnInnerWalls()
-    destroyInnerWalls()
-    destroyMarkers()
     resetAbilableMarkers()
 
     -- ゲームボード4枚分
@@ -214,7 +218,7 @@ function spawnInnerWalls()
                     goto start
                 end
 
-                local position = {y = 1.6}
+                local position = {y = 1.45}
                 if board == 1 then
                     position.x = basePosition.x + (row - 1) * GRID
                     position.z = basePosition.z - (col - 1) * GRID
