@@ -75,3 +75,14 @@ function FYShuffle(tInput)
     end
     return tReturn
 end
+
+-- 1,1を基準にしたグリッド座標から実際の座標に変換する
+function convertGridBasePositionToRealPosition(table)
+    local col = table[1] - 1
+    local row = table[2] - 1
+
+    return {
+        x = ORIGIN_POS.x + GRID * col,
+        z = ORIGIN_POS.z - GRID * row
+    }
+end
