@@ -87,7 +87,8 @@ function spawnOuterWall()
     table.insert(walls, spawnObject(wall))
 
     for _, wall in ipairs(walls) do
-        wall.setPositionSmooth({wall.getPosition()["x"], 1.45, wall.getPosition()["z"]}, false, false)
+        local pos = wall.getPosition()
+        wall.setPositionSmooth({pos["x"], 1.45, pos["z"]}, false, false)
         wall.lock()
         wall.setColorTint(COLOR.wall)
         table.insert(spawnedObjects.wall.outer, wall)
@@ -119,6 +120,7 @@ function spawnInnerWalls()
 
     -- ゲームボード4枚分
     for board = 1, 4 do
+        local restartCount = -4
         log("ボード" .. board .. "枚目:")
         local basePosition = nil
         if board == 1 then
@@ -196,7 +198,7 @@ function spawnInnerWalls()
             end
         end
 
-        -- L字の壁
+        -- マーカーとL字の壁
         do
             local markerColors = {"red", "blue", "green", "yellow"}
             local alreadyUsed = {}
@@ -204,6 +206,7 @@ function spawnInnerWalls()
             for i = 1, 4 do
                 -- ボード内で使われた座標を保持しておくテーブル
                 ::start::
+                restartCount = restartCount + 1
                 -- 端には接地しないので2-8でランダムに位置を求める
                 local col = math.random(2, 8)
                 local row = math.random(2, 8)
@@ -217,6 +220,49 @@ function spawnInnerWalls()
                     log("　　禁止区域なので再抽選")
                     goto start
                 end
+
+                -- 重複チェック
+                if isAlreadyUsedTable(alreadyUsed, {col, row}) then
+                    log("　　既存の座標と被ったので再抽選")
+                    goto start
+                end
+
+                -- 全ボードでの壁同士の距離を確認するための1-1のタイルからの座標
+                local globalCol
+                local globalRow
+                if board == 1 then
+                    globalCol = col
+                    globalRow = row
+                elseif board == 2 then
+                    globalCol = col
+                    globalRow = 16 - row + 1
+                elseif board == 3 then
+                    globalCol = 16 - col + 1
+                    globalRow = row
+                elseif board == 4 then
+                    globalCol = 16 - col + 1
+                    globalRow = 16 - row + 1
+                end
+
+                -- 選んだ位置を中心に3x3に他の壁がないか確認する
+                if
+                    (isAlreadyUsedTable(objectPosition.wall, {globalCol - 1, globalRow - 1}) or -- 左上
+                        isAlreadyUsedTable(objectPosition.wall, {globalCol, globalRow - 1}) or -- 上
+                        isAlreadyUsedTable(objectPosition.wall, {globalCol - 1, globalRow + 1}) or -- 右上
+                        isAlreadyUsedTable(objectPosition.wall, {globalCol - 1, globalRow}) or -- 左
+                        isAlreadyUsedTable(objectPosition.wall, {globalCol, globalRow + 1}) or -- 右
+                        isAlreadyUsedTable(objectPosition.wall, {globalCol + 1, globalRow - 1}) or -- 左下
+                        isAlreadyUsedTable(objectPosition.wall, {globalCol + 1, globalRow}) or -- 下
+                        isAlreadyUsedTable(objectPosition.wall, {globalCol + 1, globalRow + 1}))
+                 then -- 右下
+                    log("　　隣接しているので再抽選")
+                    goto start
+                end
+
+                -- ボード内の重複チェックために、localに壁の場所を保持するやつ
+                table.insert(alreadyUsed, {col, row})
+                -- 全ボードでの壁同士の距離を確認するためにglobalに壁の場所を保持するやつ
+                table.insert(objectPosition.wall, {globalCol, globalRow})
 
                 local position = {y = 1.45}
                 if board == 1 then
@@ -232,15 +278,6 @@ function spawnInnerWalls()
                     position.x = basePosition.x - (row - 1) * GRID
                     position.z = basePosition.z + (col - 1) * GRID
                 end
-
-                -- 重複チェック
-                if isAlreadyUsedTable(alreadyUsed, position) then
-                    log("　　既存の座標と被ったので再抽選")
-                    goto start
-                end
-
-                -- 現在の位置をalreadyUsedに保存
-                table.insert(alreadyUsed, position)
 
                 -- 適当なマーカーの色を取得する
                 local markerColor = nil
@@ -288,6 +325,7 @@ function spawnInnerWalls()
                 table.insert(spawnedObjects.wall.inner, Lshape)
             end
         end
+        log("Restart Count: [FF0000]" .. restartCount .. "[-]")
     end
 
     return 1

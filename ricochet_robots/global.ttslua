@@ -9,6 +9,9 @@ spawnedObjects = {
     marker = {}
 }
 coloredTiles = {}
+objectPosition = {
+    wall = {}
+}
 
 function onload()
     gridSetDefault()
@@ -37,7 +40,6 @@ function setTileColor()
                 sound = false,
                 callback_function = function(zone)
                     for i, obj in ipairs(zone.getObjects()) do
-                        -- log(obj.getName())
                         if
                             obj.tag == "Tile" and not string.find(obj.getName(), "Marker") and
                                 not string.find(obj.getName(), "Voltex")
