@@ -213,9 +213,11 @@ function spawnInnerWalls()
                 log("　L字" .. i .. "個目: " .. col .. ", " .. row)
 
                 -- centerWallに重なる位置は禁止とする
+                -- 2-2も空間が生まれることがあるので禁止
                 if
                     (col == 8 and row == 8) or (col == 7 and row == 7) or (col == 8 and row == 7) or
-                        (col == 7 and row == 8)
+                        (col == 7 and row == 8) or
+                        (col == 2 and row == 2)
                  then
                     log("　　禁止区域なので再抽選")
                     goto start
