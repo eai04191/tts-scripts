@@ -1,0 +1,7 @@
+-- From: https://steamcommunity.com/sharedfiles/filedetails/?id=752690530
+function wait(time)
+    local start = os.time()
+    repeat
+        coroutine.yield(0)
+    until os.time() > start + time
+end

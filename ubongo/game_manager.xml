@@ -30,12 +30,13 @@
                 <TableLayout class="column">
                     <Row class="Header">
                         <Cell>
-                            <Text class="HeaderText">テキスト見本</Text>
+                            <Text class="HeaderText">Play</Text>
                         </Cell>
                     </Row>
                     <Row class="Content">
-                        <Cell>
-                            <Text class="ContentText">テキスト見本テキスト見本テキスト見本テキスト見本テキスト見本テキスト見本テキスト見本テキスト見本</Text>
+                        <Cell preferredHeight="20">
+                            <!-- <Text class="ContentText">テキスト見本テキスト見本テキスト見本テキスト見本テキスト見本テキスト見本テキスト見本テキスト見本</Text> -->
+                            <Button onClick="deal">Deal</Button>
                         </Cell>
                     </Row>
                 </TableLayout>

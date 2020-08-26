@@ -1,6 +1,4 @@
 -- Based on https://www.reddit.com/r/tabletopsimulator/comments/b9wtny/dice_roll_announcer/
-
-local side, text = "", ""
 local randomized = false
 
 function onRandomize(player_color)
@@ -11,6 +9,7 @@ function onRandomize(player_color)
 end
 
 function whileDrop()
+    UI.setAttribute("ubongo_die", "image", "timer-sand")
     while not self.resting do
         coroutine.yield(0) -- Always yield 0 to resume
     end

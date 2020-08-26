@@ -1,0 +1,35 @@
+<Panel id="OSCT_parent" width="55" height="40" rectAlignment="MiddleRight">
+    <Button id="OSCT_hider" text="v^" width="50" height="40" fontSize="25" onClick="OSCT_minimax" rectAlignment="UpperRight" offsetXY="-5 0"/>
+    <TableLayout id="OSCT_ClockPanel" width="250" height="150" rectAlignment="UpperRight" columnWidths="50 25 0 25 50" offsetXY="-5 -40">
+        <Row preferredHeight="100">
+            <Cell columnSpan="5">
+                <Button id="OSCT_Clock" onClick="OSCT_startStop" fontSize="75" />
+            </Cell>
+        </Row>
+        <Row preferrecHeight="50">
+            <Cell>
+                <Button id="OSCT_decx10" text="--" fontSize="25" onClick="OSCT_incdec"/>
+            </Cell>
+            <Cell>
+                <Button id="OSCT_decx1" text="-" fontSize="25" onClick="OSCT_incdec"/>
+            </Cell>
+            <Cell>
+                <Button id="OSCT_reset" text="Reset" fontSize="25" onClick="OSCT_reset"/>
+            </Cell>
+            <Cell>
+                <Button id="OSCT_incx1" text="+" fontSize="25" onClick="OSCT_incdec"/>
+            </Cell>
+            <Cell>
+                <Button id="OSCT_incx10" text="++" fontSize="25" onClick="OSCT_incdec"/>
+            </Cell>
+        </Row>
+    </TableLayout>
+</Panel>
+
+<Panel id="ubongo_button_wrapper" width="200" height="80" rectAlignment="LowerCenter" offsetXY="0 25" allowDragging="true" returnToOriginalPositionWhenReleased="false">
+    <Button id="ubongo_button" text="Ubongo!" fontSize="30" interactable="false" onClick="4b6d17/ubongo_clicked"/>
+</Panel>
+<Panel id="ubongo_die_wrapper" width="80" height="80" rectAlignment="LowerCenter" offsetXY="-170 25" tooltip="現在のお題" tooltipPosition="Above" allowDragging="true" returnToOriginalPositionWhenReleased="false">
+    <Button text="" fontSize="30" interactable="false" />
+    <Image id="ubongo_die" image="1" raycastTarget="false" type="Filled" />
+</Panel>
