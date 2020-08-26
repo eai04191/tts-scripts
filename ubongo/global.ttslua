@@ -1,0 +1,240 @@
+--[[
+    On-Screen Countdown Timer by Steam user symphonicMeltdown
+        ~~* Please do not remove this comment block *~~
+]]
+--[[User Variables
+     ________________________________________________________________
+    | Variable          | Options       | Description                |
+    |================================================================|
+    | annoumceTimeout   | true          | Will broadcast message     |
+    |                   | false         | when the clock runs out    |
+    |-------------------+---------------+----------------------------|
+    | lockClock         | true          | Sets if the clock should   |
+    |                   | false         | be able to be dragged      |
+    |-------------------+---------------+----------------------------|
+    | clockAlignment    | "BottomRight" | Sets where the clock will  |
+    |                   | "BottomLeft"  | appear in regards to the   |
+    |                   | "TopRight"    | show/hide button. Left and |
+    |                   | "TopLeft      | right sides are aligned    |
+    |                   |               | NOTE: This is mostly       |
+    |                   |               | useless if you do not      |
+    |                   |               | turn on lockClock          |
+    |-------------------+---------------+----------------------------|
+    | timeChangeBy      | an integer    | Sets how much the small    |
+    |                   |               | change (>) changes by      |
+    |-------------------+---------------+----------------------------|
+    | bigSkipMultiplier | an integer    | Sets how much to multiply  |
+    |                   |               | timeChangeBy by for >>'s   |
+    |___________________|_______________|____________________________|
+]]
+OSCT_config = {
+    announceTimeout = true,
+    lockClock = true,
+    clockAlignment = "TopRight",
+    timeChangeBy = 10,
+    bigSkipMultiplier = 6
+}
+
+--[[ Colors for when a player selects the timer. The "__Dim" colors are
+     used when the timer is paused. NOTE: The text color is not set to
+     change, so keep these colors light enough to read black text!
+]]
+OSCT_colors = {
+    Black = "#30B22A",
+    BlackDim = "#30B22A7F",
+    White = "#30B22A",
+    WhiteDim = "#30B22A7F",
+    Brown = "#30B22A",
+    BrownDim = "#30B22A7F",
+    Red = "#30B22A",
+    RedDim = "#30B22A7F",
+    Orange = "#30B22A",
+    OrangeDim = "#30B22A7F",
+    Yellow = "#30B22A",
+    YellowDim = "#30B22A7F",
+    Green = "#30B22A",
+    GreenDim = "#30B22A7F",
+    Teal = "#30B22A",
+    TealDim = "#30B22A7F",
+    Blue = "#30B22A",
+    BlueDim = "#30B22A7F",
+    Purple = "#30B22A",
+    PurpleDim = "#30B22A7F",
+    Pink = "#30B22A",
+    PinkDim = "#30B22A7F"
+}
+
+--[[ End user variables,
+DO NOT EDIT PAST THIS LINE (unless you know what you're doing)]]
+------------------------------------------------------------------------
+OSCT_config["visible"] = "Nobody|Black|White|Brown|Red|Orange|Yellow|" .. "Green|Teal|Blue|Purple|Pink"
+OSCT_config["running"] = false
+OSCT_config["OSCT_countTime"] = 90
+
+function onLoad(saveData)
+    if saveData ~= "" then
+        local data = JSON.decode(saveData)
+        if data["OSCT_config"] then
+            -- Force using defined vars above
+            for _, var in pairs(
+                {
+                    "announceTimeout",
+                    "clockAlignment",
+                    "lockClock",
+                    "timeChangeBy",
+                    "bigSkipMultiplier"
+                }
+            ) do
+                data["OSCT_config"][var] = OSCT_config[var]
+            end
+            OSCT_config = data["OSCT_config"]
+        end
+    end
+    UI.setAttribute("OSCT_ClockPanel", "visibility", OSCT_config["visible"])
+    if not OSCT_config["lockClock"] then
+        UI.setAttributes(
+            "OSCT_parent",
+            {
+                returnToOriginalPositionWhenReleased = "false",
+                allowDragging = "true"
+            }
+        )
+    end
+    local off = "-5 "
+    if OSCT_config["clockAlignment"]:match("Left") then
+        off = "195 "
+    end
+    if OSCT_config["clockAlignment"]:match("Top") then
+        off = off .. "150"
+    else
+        off = off .. "-40"
+    end
+    UI.setAttribute("OSCT_ClockPanel", "offsetXY", off)
+    if OSCT_config["running"] then
+        OSCT_timeString(OSCT_config["OSCT_countTime"] - OSCT_config["currCount"])
+        OSCT_config["running"] = Wait.time(OSCT_count, 1)
+        OSCT_newColor(OSCT_config["runBy"])
+    else
+        OSCT_timeString(OSCT_config["OSCT_countTime"])
+        OSCT_newColor("#DDDDDD")
+    end
+end
+
+function onSave()
+    return JSON.encode({OSCT_config = OSCT_config})
+end
+
+function OSCT_minimax(player, value, id)
+    -- Minimize or maximize the clock by hiding it
+    local colors = {
+        "Black",
+        "White",
+        "Brown",
+        "Red",
+        "Orange",
+        "Yellow",
+        "Green",
+        "Teal",
+        "Blue",
+        "Purple",
+        "Pink"
+    }
+    local newVis = "Nobody|"
+    for _, color in pairs(colors) do
+        v = OSCT_config["visible"]:match(color)
+        if not v and color == player.color then
+            newVis = newVis .. color .. "|"
+        elseif v and color ~= player.color then
+            newVis = newVis .. color .. "|"
+        end
+    end
+    OSCT_config["visible"] = newVis:match("(.*)|")
+    UI.setAttribute("OSCT_ClockPanel", "visibility", OSCT_config["visible"])
+end
+
+function OSCT_timeString(sec)
+    --[[ From an input of seconds, update clock display
+         i.e. OSCT_timeString(75) ==> "01:15" ]]
+    local h = math.floor(sec / 60)
+    local s = sec % 60
+    UI.setAttribute("OSCT_Clock", "text", string.format("%02d:%02d", h, s))
+end
+
+function OSCT_count()
+    if OSCT_config["running"] then
+        OSCT_config["currCount"] = OSCT_config["currCount"] + 1
+        local delta = (OSCT_config["OSCT_countTime"] - OSCT_config["currCount"])
+        OSCT_timeString(delta)
+        if delta ~= 0 then
+            OSCT_config["running"] = Wait.time(OSCT_count, 1)
+        else
+            OSCT_newColor("#b22a30")
+            OSCT_config["running"] = nil
+            if OSCT_config["announceTimeout"] then
+                broadcastToAll("¡TIEMPO!")
+            end
+        end
+    end
+end
+
+function OSCT_incdec(player, value, id)
+    if not OSCT_config["running"] and not OSCT_config["runBy"] then
+        if id:match("inc") then
+            direction = 1
+        else
+            direction = -1
+        end
+        if id:match("10") then
+            magnitude = OSCT_config["bigSkipMultiplier"]
+        else
+            magnitude = 1
+        end
+        local newT = OSCT_config["OSCT_countTime"] + (OSCT_config["timeChangeBy"] * direction * magnitude)
+        if newT > 0 then
+            OSCT_config["OSCT_countTime"] = newT
+            OSCT_timeString(OSCT_config["OSCT_countTime"])
+        end
+    end
+end
+
+function OSCT_reset(player, value, id)
+    if not OSCT_config["running"] and (OSCT_config["runBy"] == player.color or player.admin) then
+        OSCT_timeString(OSCT_config["OSCT_countTime"])
+        OSCT_config["currCount"] = 0
+        OSCT_config["runBy"] = nil
+        OSCT_newColor("#DDDDDD")
+    end
+end
+
+function OSCT_newColor(c)
+    if OSCT_colors[c] then
+        c = OSCT_colors[c]
+    end
+    UI.setAttribute("OSCT_hider", "color", c)
+    UI.setAttribute("OSCT_Clock", "color", c)
+end
+
+function OSCT_startStop(player, value, id)
+    if OSCT_config["running"] then
+        if player.admin or player.color == OSCT_config["runBy"] then
+            Wait.stop(OSCT_config["running"])
+            OSCT_config["running"] = false
+            OSCT_newColor(player.color .. "Dim")
+        end
+    elseif OSCT_config["runBy"] then
+        if
+            (player.admin or player.color == OSCT_config["runBy"]) and
+                OSCT_config["currCount"] ~= OSCT_config["OSCT_countTime"]
+         then
+            OSCT_config["running"] = Wait.time(OSCT_count, 1)
+            OSCT_newColor(player.color)
+        elseif (OSCT_config["currCount"] == OSCT_config["OSCT_countTime"]) then
+            OSCT_reset(player, value, id)
+        end
+    else
+        OSCT_config["runBy"] = player.color
+        OSCT_config["running"] = Wait.time(OSCT_count, 1)
+        OSCT_config["currCount"] = 0
+        OSCT_newColor(player.color)
+    end
+end
