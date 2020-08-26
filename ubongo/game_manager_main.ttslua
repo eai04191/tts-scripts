@@ -1,11 +1,14 @@
 DECKBAG_GUID = "6b5ba3"
 DIE_GUID = "552cdf"
 
+completePlayers = {}
+
 function deal()
     startLuaCoroutine(self, "dealCoroutine")
 end
 
 function dealCoroutine()
+    completePlayers = {}
     local bag = getObjectFromGUID(DECKBAG_GUID)
     bag.shuffle()
     local boards = {}
@@ -34,9 +37,6 @@ function dealCoroutine()
                 end
             }
         )
-        -- local board = deck.dealToColorWithOffset({0, 0, 6}, false, playerColor)
-        -- wait(0.5)
-        -- board.rotate({x = 0, y = 180, z = 0})
     end
 
     wait(0.75)
@@ -68,8 +68,58 @@ function dealCoroutine()
 end
 
 function ubongo_clicked(player, value, id)
-    local spend = os.clock() - gameStart
-    printToAll(string.format("%s: %.2f秒", player.steam_name, spend))
+    -- 既に宣言しているかのチェック
+    local flag = false
+    for i, completePlayer in ipairs(completePlayers) do
+        if player.color == completePlayer.color then
+            flag = true
+        end
+    end
+
+    if flag then
+        broadcastToColor("あなたは既に申告済みです！", player.color)
+        return
+    end
+
+    local time = os.clock() - gameStart
+
+    local rank = 1
+    for i, value in ipairs(completePlayers) do
+        rank = rank + 1
+    end
+
+    printToAll(string.format("%d位 %s: %.2f秒", rank, player.steam_name, time))
+
+    table.insert(
+        completePlayers,
+        {
+            color = player.color,
+            time = time,
+            rank = rank
+        }
+    )
+    checkRoundIsOver()
+end
+
+function checkRoundIsOver()
+    local playerCount = 0
+    for i, v in ipairs(getSeatedPlayers()) do
+        playerCount = playerCount + 1
+    end
+
+    local completePlayerCount = 0
+    for i, v in ipairs(completePlayers) do
+        completePlayerCount = completePlayerCount + 1
+    end
+
+    if completePlayerCount >= playerCount then
+        broadcastToAll("Game is Over!")
+        roundOver()
+    end
+end
+
+function roundOver()
+    -- TODO
 end
 
 function getHost()
