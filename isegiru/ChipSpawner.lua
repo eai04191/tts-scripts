@@ -1,22 +1,12 @@
 require("eai/isegiru/guid")
 require("eai/isegiru/announce")
 require("eai/isegiru/vector")
+require("eai/isegiru/object")
 require("eai/util/string")
 
-function getValue()
-    local tags = self.getTags()
-    for _, tag in ipairs(tags) do
-        if starts_with(tag, "Value_") then
-            -- Value_n から n を取り出す
-            return string.sub(tag, 7)
-        end
-    end
-    return "1"
-end
+local value = Object_getValue(self)
 
 function onLoad()
-    local value = getValue()
-
     self.createButton({
         label = "",
         click_function = "buttonPressed",
@@ -29,8 +19,6 @@ function onLoad()
 end
 
 function buttonPressed(_, playerColor)
-    local value = getValue()
-
     announceToAll(playerColor, string.format("%sチップを作成しました", value))
 
     local targetObj = getObjectFromGUID(GUID["Chip" .. value])
@@ -46,7 +34,7 @@ function buttonPressed(_, playerColor)
 
     -- 左上に飛ばす力を加える
     Wait.frames(function()
-        outObj.addForce(VectorOnLeft(3, 12))
+        outObj.addForce(Vector_onLeft(3, 12))
         outObj.addTorque(Vector({ 0, 0, 0.025 }))
     end, 3)
 

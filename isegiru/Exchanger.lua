@@ -1,6 +1,7 @@
 require("eai/isegiru/guid")
 require("eai/isegiru/announce")
 require("eai/isegiru/vector")
+require("eai/isegiru/object")
 require("eai/util/string")
 
 local running = false
@@ -16,7 +17,7 @@ function onObjectEnterContainer(container, object)
         -- 本当はユーザーが触らなくなってから１秒後にしたい
 
         Timer.create({
-            identifier = self.getGUID(), function_name = 'mainProcess', delay = 1
+            identifier = self.getGUID(), function_name = 'mainProcess', delay = 0.5
         })
     end
 end
@@ -24,9 +25,11 @@ end
 function getCountAndTotalValueOfChips(table)
     local count = 0
     local totalValue = 0
-    for _, v in pairs(table) do
+
+    for _, subTable in pairs(table) do
+        local value = Object_getValue_container(subTable)
         count = count + 1
-        totalValue = totalValue + v.description
+        totalValue = totalValue + value
     end
     return { count = count, totalValue = totalValue }
 end
@@ -48,15 +51,15 @@ function spawn(values)
             })
             -- 左上に飛ばす力を加える
             Wait.frames(function()
-                outObj.addForce(VectorOnLeft(3, 12))
+                outObj.addForce(Vector_onLeft(3, 12))
                 outObj.addTorque(Vector({ 0, 0, 0.025 }))
             end, 3)
             scaleAnimation(outObj, targetObjScale)
-        end, 17 * k) -- このフレームごとに1枚ずつ出す。同時に出すとぶつかるから
+        end, 17 * k - 17) -- このフレームごとに1枚ずつ出す。同時に出すとぶつかるから
     end
 end
 
-function find_closest_sum(input)
+function findClosestSum(input)
     local values = { 20, 10, 5, 2, 1 }
     local result = {}
     local remaining = input
@@ -92,7 +95,7 @@ function mainProcess()
             spawn({ 10, 10 })
         end
     else
-        local sum = find_closest_sum(totalValue)
+        local sum = findClosestSum(totalValue)
         spawn(sum)
     end
 

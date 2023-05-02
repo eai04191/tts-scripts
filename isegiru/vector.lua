@@ -1,4 +1,4 @@
-function rotateVector(vector)
+function Vector_rotateVector(vector)
     local rotation = self.getRotation()
     local radX = math.rad(rotation.x)
     local radY = math.rad(rotation.y)
@@ -25,34 +25,34 @@ function rotateVector(vector)
     return Vector(rz)
 end
 
-function VectorOnTopLeft(force, forceY)
-    return rotateVector(Vector({ x = force, y = forceY, z = -force }))
+function Vector_onTopLeft(force, forceY)
+    return Vector_rotateVector(Vector({ x = force, y = forceY, z = -force }))
 end
 
-function VectorOnTopRight(force, forceY)
-    return rotateVector(Vector({ x = -force, y = forceY, z = -force }))
+function Vector_onTopRight(force, forceY)
+    return Vector_rotateVector(Vector({ x = -force, y = forceY, z = -force }))
 end
 
-function VectorOnBottomLeft(force, forceY)
-    return rotateVector(Vector({ x = force, y = forceY, z = force }))
+function Vector_onBottomLeft(force, forceY)
+    return Vector_rotateVector(Vector({ x = force, y = forceY, z = force }))
 end
 
-function VectorOnBottomRight(force, forceY)
-    return rotateVector(Vector({ x = -force, y = forceY, z = force }))
+function Vector_onBottomRight(force, forceY)
+    return Vector_rotateVector(Vector({ x = -force, y = forceY, z = force }))
 end
 
-function VectorOnTop(force, forceY)
-    return rotateVector(Vector({ x = 0, y = forceY, z = -force }))
+function Vector_onTop(force, forceY)
+    return Vector_rotateVector(Vector({ x = 0, y = forceY, z = -force }))
 end
 
-function VectorOnBottom(force, forceY)
-    return rotateVector(Vector({ x = 0, y = forceY, z = force }))
+function Vector_onBottom(force, forceY)
+    return Vector_rotateVector(Vector({ x = 0, y = forceY, z = force }))
 end
 
-function VectorOnLeft(force, forceY)
-    return rotateVector(Vector({ x = force, y = forceY, z = 0 }))
+function Vector_onLeft(force, forceY)
+    return Vector_rotateVector(Vector({ x = force, y = forceY, z = 0 }))
 end
 
-function VectorOnRight(force, forceY)
-    return rotateVector(Vector({ x = -force, y = forceY, z = 0 }))
+function Vector_onRight(force, forceY)
+    return Vector_rotateVector(Vector({ x = -force, y = forceY, z = 0 }))
 end
