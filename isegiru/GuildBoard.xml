@@ -1,0 +1,44 @@
+<Defaults>
+    <Button height="56" width="56" />
+    <Text fontStyle="bold" fontSize="20" color="rgb(0.8,0.8,0.8)" alignment="MiddleLeft" />
+
+    <TableLayout cellSpacing="6" cellBackgroundColor="clear" />
+    <Row preferredHeight="56" />
+    <VerticalLayout class="VerticalLayoutText" showAnimation="FadeIn" hideAnimation="FadeOut" animationDuration="0.2" />
+</Defaults>
+
+<Panel position="0 0 -12.5" rotation="0 0 180" scale="0.25 0.25 0.25" childAlignment="MiddleCenter">
+    <TableLayout width="1710" height="56" offsetXY="28 6" columnWidths="56 492">
+        <Row>
+            <Cell>
+                <Button id="ButtonLock" onClick="onButton" onMouseEnter="onButtonEnter" onMouseExit="onButtonExit">
+                    <Image image="lock"></Image>
+                </Button>
+            </Cell>
+            <Cell>
+                <VerticalLayout id="TextLock" class="VerticalLayoutText">
+                    <Text color="white">ボードはロックされています</Text>
+                    <Text color="black">クリックでロック解除</Text>
+                </VerticalLayout>
+            </Cell>
+        </Row>
+    </TableLayout>
+</Panel>
+
+<Panel position="0 0 -12.5" rotation="0 0 180" scale="0.25 0.25 0.25" childAlignment="MiddleCenter">
+    <TableLayout width="1710" height="56" offsetXY="28 6" columnWidths="56 492">
+        <Row>
+            <Cell>
+                <Button id="ButtonUnlock" onClick="onButton" onMouseEnter="onButtonEnter" onMouseExit="onButtonExit">
+                    <Image image="unlock"></Image>
+                </Button>
+            </Cell>
+            <Cell>
+                <VerticalLayout id="TextUnlock" class="VerticalLayoutText">
+                    <Text color="white">ボードはロック解除されています</Text>
+                    <Text color="black">クリックでロック</Text>
+                </VerticalLayout>
+            </Cell>
+        </Row>
+    </TableLayout>
+</Panel>
