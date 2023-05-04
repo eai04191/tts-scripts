@@ -1,3 +1,5 @@
+require("eai/util/mergeTables")
+
 function onLoad()
     -- MDIからSize 64px, Padding 2dpで作成
     self.UI.setCustomAssets({
@@ -29,10 +31,60 @@ function updateButtonDisplay()
 end
 
 function onButton()
+    local scale = self.getScale()
+    local zoneParam = {
+        type = 'ScriptingTrigger',
+        -- 自身の左側に配置
+        position = self.positionToWorld({
+            x = 2.3,
+            y = 0,
+            z = 0,
+        }),
+        rotation = self.getRotation(),
+        scale = { scale.x / 2, 1, scale.z * 2 },
+    }
+
+    local function unlockCallback(zone)
+        zone.addTag("ChipSpawner")
+
+        for _, o in ipairs(zone.getObjects()) do
+            -- 自身にタグがついているので同じタグがついているものだけがoとして取れるはずだが、何故かそうならないのでここでも判別する
+            if not o.hasTag("ChipSpawner") then
+                goto continue
+            end
+
+            self.addAttachment(o)
+            ::continue::
+        end
+
+        zone.destruct()
+    end
+
+    local function lockCallback(zone)
+        zone.addTag("ChipSpawner")
+
+        self.removeAttachments()
+
+        for _, o in ipairs(zone.getObjects()) do
+            if not o.hasTag("ChipSpawner") then
+                goto continue
+            end
+
+            o.setLock(true)
+            ::continue::
+        end
+
+        zone.destruct()
+    end
+
     if (self.locked) then
+        -- unlock
         self.setLock(false)
+        spawnObject(mergeTables(zoneParam, { callback_function = unlockCallback }))
     else
+        -- lock
         self.setLock(true)
+        spawnObject(mergeTables(zoneParam, { callback_function = lockCallback }))
     end
     updateButtonDisplay()
 end

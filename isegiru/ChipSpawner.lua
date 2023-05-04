@@ -2,7 +2,6 @@ require("eai/isegiru/guid")
 require("eai/isegiru/announce")
 require("eai/isegiru/vector")
 require("eai/isegiru/object")
-require("eai/util/string")
 
 local value = Object_getValue(self)
 

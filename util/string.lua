@@ -1,8 +1,8 @@
 -- http://lua-users.org/wiki/StringRecipes
-function starts_with(str, start)
+function String_starts_with(str, start)
     return str:sub(1, #start) == start
 end
 
-function ends_with(str, ending)
+function String_ends_with(str, ending)
     return ending == "" or str:sub(- #ending) == ending
 end
