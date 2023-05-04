@@ -2,15 +2,15 @@
 
 ## ルールの設定
 
-|                          |                                                 |
-| ------------------------ | ----------------------------------------------- |
-| ![][badge-base]          | [基本セット][bodoge-base]                       |
-| ![][badge-ext-labyrinth] | [拡張 1: 迷宮大変動][bodoge-ext-labyrinth]      |
-| ![][badge-ext-ensemble]  | [拡張 2: 迷宮都市の群像劇][bodoge-ext-ensemble] |
+|                          |                                               |
+| ------------------------ | --------------------------------------------- |
+| ![][badge-base]          | [基本セット][link-base]                       |
+| ![][badge-ext-labyrinth] | [拡張 1: 迷宮大変動][link-ext-labyrinth]      |
+| ![][badge-ext-ensemble]  | [拡張 2: 迷宮都市の群像劇][link-ext-ensemble] |
 
-[bodoge-base]: https://bodoge.hoobby.net/games/isekai-guild-mastersomasutazu
-[bodoge-ext-labyrinth]: https://bodoge.hoobby.net/games/isekai-guild-mastersmeikyu-daihendou
-[bodoge-ext-ensemble]: https://bodoge.hoobby.net/games/dungeon-towns-ensemble
+[link-base]: https://bodoge.hoobby.net/games/isekai-guild-mastersomasutazu
+[link-ext-labyrinth]: https://bodoge.hoobby.net/games/isekai-guild-mastersmeikyu-daihendou
+[link-ext-ensemble]: https://bodoge.hoobby.net/games/dungeon-towns-ensemble
 
 <!-- -->
 
@@ -27,23 +27,29 @@
         1. 一部カードを抜く処理を追加
     4. ![][badge-ext-labyrinth] 大深度迷宮 表面
     5. ![][badge-ext-labyrinth] 大深度迷宮 裏面
-2. ![][badge-ext-labyrinth] 追加イベントカード・レガリアカード
+2. ![][badge-base] 追加ルール「フラッグチップ」
+3. ![][badge-base] 追加ルール「禁止区域」
+    - 2, 3 人プレイの場合のみ
+4. ![][badge-base] 追加ルール「セットアップドラフト」
+5. ![][badge-base] 追加ルール「高難易度ボスタイル」
+6. ![][badge-base] 追加ルール「偵察隊」
+7. ![][badge-ext-labyrinth] 追加イベントカード・レガリアカード
     - 大深度迷宮マップの場合、使用必須
-3. ![][badge-ext-labyrinth] 「変動迷宮」
+8. ![][badge-ext-labyrinth] 「変動迷宮」
     - 大深度迷宮マップの場合、使用必須
-4. ![][badge-ext-labyrinth] 追加ルール「移り変わる迷宮」
+9. ![][badge-ext-labyrinth] 追加ルール「移り変わる迷宮」
     - 妨害カードの導入
-5. ![][badge-ext-labyrinth] 追加ルール「ギルドの掲示板」
-6. ![][badge-ext-labyrinth] 長時間ゲームルール「汚染領域」
-7. ![][badge-ext-labyrinth] 「豊かな季節」ターントラック
+10. ![][badge-ext-labyrinth] 追加ルール「ギルドの掲示板」
+11. ![][badge-ext-labyrinth] 長時間ゲームルール「汚染領域」
+12. ![][badge-ext-labyrinth] 「豊かな季節」ターントラック
     - 「ギルドの掲示板」使用時は季節ボーナスがないため無関係
-8. ![][badge-ext-ensemble] 追加イベントカード
+13. ![][badge-ext-ensemble] 追加イベントカード
     - 尖ったカードが多いため注意。合わないものは抜く
-9. ![][badge-ext-ensemble] 追加ルール「物語の始まり」
+14. ![][badge-ext-ensemble] 追加ルール「物語の始まり」
     - プロローグカード
-10. ![][badge-ext-ensemble] 追加ルール「苦難の物語」
+15. ![][badge-ext-ensemble] 追加ルール「苦難の物語」
     - 導入する場合、「物語の始まり」が必須
-11. ![][badge-ext-ensemble] 追加ルール「ハッピーエンドを求めて」
+16. ![][badge-ext-ensemble] 追加ルール「ハッピーエンドを求めて」
     - 導入する場合、「物語の始まり」も推奨
 
 ## スクリプト
