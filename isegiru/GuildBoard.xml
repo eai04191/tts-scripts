@@ -11,7 +11,7 @@
     <TableLayout width="1710" height="56" offsetXY="28 6" columnWidths="56 492">
         <Row>
             <Cell>
-                <Button id="ButtonLock" onClick="onButton" onMouseEnter="onButtonEnter" onMouseExit="onButtonExit">
+                <Button id="ButtonLock" onClick="onButton" onMouseEnter="onLockButtonEnter" onMouseExit="onLockButtonExit">
                     <Image image="lock"></Image>
                 </Button>
             </Cell>
@@ -29,14 +29,14 @@
     <TableLayout width="1710" height="56" offsetXY="28 6" columnWidths="56 492">
         <Row>
             <Cell>
-                <Button id="ButtonUnlock" onClick="onButton" onMouseEnter="onButtonEnter" onMouseExit="onButtonExit">
+                <Button id="ButtonUnlock" onClick="onButton">
                     <Image image="unlock"></Image>
                 </Button>
             </Cell>
             <Cell>
                 <VerticalLayout id="TextUnlock" class="VerticalLayoutText">
                     <Text color="white">ボードはロック解除されています</Text>
-                    <Text color="black">クリックでロック</Text>
+                    <Text color="red">チップ作成を使うにはロックしてください</Text>
                 </VerticalLayout>
             </Cell>
         </Row>

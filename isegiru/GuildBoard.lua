@@ -15,9 +15,28 @@ function onLoad()
         }
     })
 
-    self.UI.hide("TextLock")
-    self.UI.hide("TextUnlock")
+    updateTextDisplay()
     updateButtonDisplay()
+end
+
+function updateTextDisplay()
+    -- lock時: 非表示。カーソルが乗っていたらTextLockを表示
+    -- unlock時: つねにTextUnlockを表示
+    if (self.locked) then
+        self.UI.hide("TextLock")
+        self.UI.hide("TextUnlock")
+    else
+        self.UI.hide("TextLock")
+        self.UI.show("TextUnlock")
+    end
+end
+
+function onLockButtonEnter()
+    self.UI.show("TextLock")
+end
+
+function onLockButtonExit()
+    self.UI.hide("TextLock")
 end
 
 function updateButtonDisplay()
@@ -86,20 +105,7 @@ function onButton()
         self.setLock(true)
         spawnObject(mergeTables(zoneParam, { callback_function = lockCallback }))
     end
+
+    updateTextDisplay()
     updateButtonDisplay()
-end
-
-function onButtonEnter()
-    if (self.locked) then
-        self.UI.show("TextLock")
-        self.UI.hide("TextUnlock")
-    else
-        self.UI.hide("TextLock")
-        self.UI.show("TextUnlock")
-    end
-end
-
-function onButtonExit()
-    self.UI.hide("TextLock")
-    self.UI.hide("TextUnlock")
 end
